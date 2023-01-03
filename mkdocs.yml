@@ -2,7 +2,9 @@ site_name: Compclasses
 nav:
   - Home: index.md
   # - Getting Started:
-  # - API:
+  - API:
+    - compclass: api/compclass.md
+    - delegatee: api/delegatee.md
 plugins:
   - search
   - mkdocstrings
