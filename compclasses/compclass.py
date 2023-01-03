@@ -2,7 +2,7 @@ import logging
 from enum import IntEnum
 from itertools import filterfalse, tee
 from operator import attrgetter
-from typing import Callable, Dict, List, Optional, Sequence, Type, Union
+from typing import Any, Callable, Dict, Optional, Sequence, Tuple, Type, Union
 
 logger = logging.getLogger("__main__")
 logger.setLevel(logging.INFO)
@@ -18,8 +18,38 @@ class Verbose(IntEnum):
     ALL = 4
 
 
+def partition(
+    pred: Callable[..., bool], iterable: Sequence
+) -> Tuple[Tuple[str, ...], Tuple[str, ...]]:
+    """
+    Use a predicate to partition entries into True entries and False entries
+    """
+    t1, t2 = tee(iterable)
+    return tuple(filter(pred, t1)), tuple(filterfalse(pred, t2))
+
+
 class delegatee:
-    """Base delegatee class"""
+    """
+    Base delegatee class
+
+    Arguments:
+        delegatee_cls: class from which we delegate.
+            This is the class/type definition.
+        attrs: sequence of attributes/methods to inject on the composed class.
+            Remark that if "*" is present, we inject all the methods,
+            excluding dunder methods which need to be explicitly stated.
+        prefix: injected method prefix, unused with dunder methods
+        suffix: injected method suffix, unused with dunder methods
+        validate: whether or not to validate if delegatee_cls has all the attrs.
+            Remark that validate function includes methods and class attributes only,
+            it doesn't detect instance attributes, therefore if instance attributes are passed
+            and validate param is True then the check will fail.
+
+    Methods:
+        - _parse_attrs: parses the original attrs sequence, splitting between dunder and class methods.
+        - _is_dunder_method: assess whether or not an attribute is a dunder method.
+        - _validate_delegatee_methods: checks if delegatee_cls has all attributes/methods in attrs
+    """
 
     def __init__(
         self,
@@ -30,12 +60,11 @@ class delegatee:
         validate: bool = True,
     ):
 
-        self.delegatee = delegatee_cls
+        self.delegatee_cls = delegatee_cls
         self._attrs = self._parse_attrs(delegatee_cls, attrs)
 
-        print(self._attrs)
         if validate:
-            self._validate_delegatee_methods(self.delegatee, self._attrs)
+            self._validate_delegatee_methods(self.delegatee_cls, self._attrs)
 
         self._prefix = prefix
         self._suffix = suffix
@@ -45,18 +74,19 @@ class delegatee:
             yield attr_name
 
     @staticmethod
-    def _parse_attrs(delegatee_cls, attrs: Sequence[str]) -> List[str]:
+    def _parse_attrs(delegatee_cls: Type, attrs: Sequence[str]) -> Tuple[str, ...]:
         """Parses the original attrs sequence"""
 
         dunder_methods, cls_methods = partition(delegatee._is_dunder_method, attrs)
         if "*" in cls_methods:
-            cls_methods = tuple(
+            all_methods = tuple(
                 attr_name
                 for attr_name in delegatee_cls.__dict__.keys()
                 if attr_name not in dunder_methods
             )
-
-        return dunder_methods + cls_methods
+        else:
+            all_methods = cls_methods
+        return dunder_methods + all_methods
 
     @staticmethod
     def _is_dunder_method(attr_name: str) -> bool:
@@ -64,10 +94,10 @@ class delegatee:
         return attr_name.startswith("__") and attr_name.endswith("__")
 
     @staticmethod
-    def _validate_delegatee_methods(delegatee_cls: Type, attrs: Sequence[str]):
+    def _validate_delegatee_methods(delegatee_cls: Type, attrs: Sequence[str]) -> None:
         """Checks if delegatee_cls has all attributes/methods in attrs"""
 
-        cls_attrs_methods = list(delegatee_cls.__dict__.keys())
+        cls_attrs_methods = tuple(delegatee_cls.__dict__.keys())
         # Remark: includes methods and class attributes only, it doesn't detect instance attributes!!!
 
         for attr_name in attrs:
@@ -78,10 +108,10 @@ class delegatee:
 
 
 def compclass(
-    cls=None,
+    cls: Type[Any] = None,
     delegates: Dict[str, Union[Sequence[str], delegatee]] = None,
     verbose: Verbose = Verbose.SILENT,
-):
+) -> Union[Callable[[Any], Any], Type[Any]]:
     """
     Adds methods from delegates to cls
 
@@ -96,7 +126,7 @@ def compclass(
         ValueError: delegates param cannot be None
 
     Returns:
-        class with added methods from delegates
+        Type[Any]: class with added methods from delegates
     """
     if delegates is None:
         raise ValueError("`delegates` cannot be None")
@@ -130,6 +160,7 @@ def compclass(
         return wrap
 
     # We're called as @compclass without parens.
+    # This case should never happen as delegates param cannot be None.
     return wrap(cls)
 
 
@@ -189,11 +220,3 @@ def _property_from_delegator(
         return getattr(wrapped_delegatee(self), attr_name).__doc__
 
     setattr(orig_cls, f"{prefix}{attr_name}{suffix}", property(fget, fset, fdel, doc))
-
-
-def partition(pred: Callable[..., bool], iterable: Sequence):
-    """
-    Use a predicate to partition entries into True entries and False entries
-    """
-    t1, t2 = tee(iterable)
-    return tuple(filter(pred, t1)), tuple(filterfalse(pred, t2))
