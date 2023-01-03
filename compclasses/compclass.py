@@ -53,7 +53,7 @@ class delegatee:
             cls_methods = tuple(
                 attr_name
                 for attr_name in delegatee_cls.__dict__.keys()
-                if not delegatee._is_dunder_method(attr_name)
+                if attr_name not in dunder_methods
             )
 
         return dunder_methods + cls_methods
@@ -82,7 +82,22 @@ def compclass(
     delegates: Dict[str, Union[Sequence[str], delegatee]] = None,
     verbose: Verbose = Verbose.SILENT,
 ):
+    """
+    Adds methods from delegates to cls
 
+    Arguments:
+        cls: class to decorate
+        delegates: key-value pair of delegates.
+            - key must be the class attribute name from which we want to forward methods
+            - value must be either a sequence of method names or a delegatee instance
+        verbose: verbisity level (0-4)
+
+    Raises:
+        ValueError: delegates param cannot be None
+
+    Returns:
+        class with added methods from delegates
+    """
     if delegates is None:
         raise ValueError("`delegates` cannot be None")
 
