@@ -1,0 +1,3 @@
+# delegatee
+
+::: compclasses.compclass.delegatee

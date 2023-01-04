@@ -1,0 +1,3 @@
+# compclass
+
+::: compclasses.compclass.compclass
