@@ -21,6 +21,6 @@ sort:
 	isort .
 
 test:
-	pytest tests
+	pytest tests -vv
 
 precommit: clean-folders test interrogate sort format clean-folders
