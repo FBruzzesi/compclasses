@@ -3,6 +3,7 @@ init-env:
 
 init-dev:
 	pip install -e ".[dev]" --no-cache-dir
+	pre-commit install
 
 clean-notebooks:
 	jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace notebooks/*.ipynb
@@ -19,4 +20,7 @@ format:
 sort:
 	isort .
 
-precommit: clean-folders interrogate sort format clean-folders
+test:
+	pytest tests
+
+precommit: clean-folders test interrogate sort format clean-folders
