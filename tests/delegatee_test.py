@@ -55,4 +55,3 @@ def test_validate_delegatee_methods(foo_cls, attrs: Sequence[str], expected):
 
     with expected:
         assert delegatee._validate_delegatee_methods(delegatee_cls, attrs) is None
-        delegatee._validate_delegatee_methods(delegatee_cls, attrs)
