@@ -82,7 +82,7 @@ class delegatee:
             all_methods = tuple(
                 attr_name
                 for attr_name in delegatee_cls.__dict__.keys()
-                if attr_name not in dunder_methods
+                if not delegatee._is_dunder_method(attr_name)
             )
         else:
             all_methods = cls_methods
