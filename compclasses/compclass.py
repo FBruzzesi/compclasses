@@ -1,10 +1,12 @@
 import logging
+import sys
 from enum import IntEnum
 from itertools import filterfalse, tee
 from operator import attrgetter
-from typing import Any, Callable, Dict, Optional, Sequence, Tuple, Type, Union
+from typing import Any, Callable, Dict, Iterable, Optional, Tuple, Type, Union
 
-logger = logging.getLogger("__main__")
+logging.basicConfig(format="%(asctime)s - %(message)s", level=logging.INFO)
+logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 
@@ -19,7 +21,7 @@ class Verbose(IntEnum):
 
 
 def partition(
-    pred: Callable[..., bool], iterable: Sequence
+    pred: Callable[..., bool], iterable: Iterable
 ) -> Tuple[Tuple[str, ...], Tuple[str, ...]]:
     """
     Use a predicate to partition entries into True entries and False entries
@@ -54,7 +56,7 @@ class delegatee:
     def __init__(
         self,
         delegatee_cls: Type,
-        attrs: Sequence[str],
+        attrs: Iterable[str],
         prefix: str = "",
         suffix: str = "",
         validate: bool = True,
@@ -74,7 +76,7 @@ class delegatee:
             yield attr_name
 
     @staticmethod
-    def _parse_attrs(delegatee_cls: Type, attrs: Sequence[str]) -> Tuple[str, ...]:
+    def _parse_attrs(delegatee_cls: Type, attrs: Iterable[str]) -> Tuple[str, ...]:
         """Parses the original attrs sequence"""
 
         dunder_methods, cls_methods = partition(delegatee._is_dunder_method, attrs)
@@ -94,7 +96,7 @@ class delegatee:
         return attr_name.startswith("__") and attr_name.endswith("__")
 
     @staticmethod
-    def _validate_delegatee_methods(delegatee_cls: Type, attrs: Sequence[str]) -> None:
+    def _validate_delegatee_methods(delegatee_cls: Type, attrs: Iterable[str]) -> None:
         """Checks if delegatee_cls has all attributes/methods in attrs"""
 
         cls_attrs_methods = tuple(delegatee_cls.__dict__.keys())
@@ -109,8 +111,9 @@ class delegatee:
 
 def compclass(
     cls: Type[Any] = None,
-    delegates: Dict[str, Union[Sequence[str], delegatee]] = None,
-    verbose: Verbose = Verbose.SILENT,
+    delegates: Dict[str, Union[Iterable[str], delegatee]] = None,
+    verbose: Union[Verbose, int] = Verbose.SILENT,
+    log_func: Callable = logger.info,
 ) -> Union[Callable[[Any], Any], Type[Any]]:
     """
     Adds methods from delegates to cls
@@ -146,11 +149,12 @@ def compclass(
 
                 _property_from_delegator(
                     orig_cls=cls,
-                    delegatee_cls=delegatee_name,
+                    delegatee_cls_name=delegatee_name,
                     attr_name=attr_name,
                     prefix=pfx,
                     suffix=sfx,
                     verbose=verbose,
+                    log_func=log_func,
                 )
 
         return cls
@@ -166,15 +170,19 @@ def compclass(
 
 def _property_from_delegator(
     orig_cls: Type,
-    delegatee_cls: str,
+    delegatee_cls_name: str,
     attr_name: str,
     prefix: str = "",
     suffix: str = "",
-    verbose: Verbose = Verbose.SILENT,
+    verbose: Union[Verbose, int] = Verbose.SILENT,
+    log_func: Callable = logger.info,
 ):
     """
     Define a property `{prefix}{attr_name}{suffix}` in the `orig_cls` scope to access as
     `self.<{prefix}{attr_name}{suffix}>` instead of `self.<delegatee_cls>.<attr_name>`.
+
+    Remark that we cannot check here if the delegatee has the passed attribute, as
+    delegatee_cls_name only represent the cls attribute name to which the delegatee is assigned.
 
     Arguments:
         orig_cls: original class
@@ -184,18 +192,18 @@ def _property_from_delegator(
         suffix: suffix of new method
         verbose: verbosity level
     """
-    wrapped_delegatee = attrgetter(delegatee_cls)
+    wrapped_delegatee = attrgetter(delegatee_cls_name)
 
     if verbose in (1, 4):
-        logger.info(
-            f"Setting {prefix}{attr_name}{suffix} from {delegatee_cls}.{attr_name}"
+        log_func(
+            f"Setting {prefix}{attr_name}{suffix} from {delegatee_cls_name}.{attr_name}"
         )
 
     def fget(self):
         """function to be used for getting an attribute value"""
         if verbose in (2, 4):
-            logger.info(
-                f"Calling {prefix}{attr_name}{suffix} from {delegatee_cls}.{attr_name}"
+            log_func(
+                f"Calling {prefix}{attr_name}{suffix} from {delegatee_cls_name}.{attr_name}"
             )
 
         return getattr(wrapped_delegatee(self), attr_name)
@@ -203,17 +211,15 @@ def _property_from_delegator(
     def fset(self, value):
         """function to be used for setting an attribute value"""
         if verbose in (1, 4):
-            logger.info(f"Setting {prefix}{attr_name}{suffix} to {value}")
+            log_func(f"Setting {prefix}{attr_name}{suffix} to {value}")
         return setattr(wrapped_delegatee(self), f"{prefix}{attr_name}{suffix}", value)
 
     def fdel(self):
         """function to be used for del'ing an attribute"""
         if verbose in (3, 4):
-            logger.info(
-                f"Deleting {prefix}{attr_name}{suffix} from {delegatee_cls}.{attr_name}"
-            )
+            log_func(f"Deleting {prefix}{attr_name}{suffix} from {orig_cls.__name__}")
 
-        return delattr(wrapped_delegatee(self), f"{prefix}{attr_name}{suffix}")
+        delattr(wrapped_delegatee(self), f"{prefix}{attr_name}{suffix}")
 
     def doc(self) -> Optional[str]:
         """docstring"""

@@ -12,7 +12,7 @@ class Foo:
 
     def get_foo(self):
         """get _foo attribute"""
-        return self.bar
+        return self._foo
 
     def hello_from_foo(self, name: str) -> str:
         """Method with argument"""
