@@ -6,6 +6,7 @@ from compclasses.compclass import partition
 
 
 def is_even(x: int) -> bool:
+    """Returns True if an integer is even"""
     return x % 2 == 0
 
 

@@ -39,13 +39,13 @@ class Bar:
 
 @pytest.fixture
 def foo_cls():
-    """Fixture returning foo class definition"""
+    """Fixture returning Foo class definition"""
 
     return Foo
 
 
 @pytest.fixture
 def bar_cls():
-    """Fixture returning foo class definition"""
+    """Fixture returning Bar class definition"""
 
     return Bar

@@ -1,3 +1,4 @@
+import inspect
 import logging
 import sys
 from enum import IntEnum
@@ -55,21 +56,33 @@ class delegatee:
 
     def __init__(
         self,
-        delegatee_cls: Type,
-        attrs: Iterable[str],
+        delegatee_cls: Optional[Type[Any]] = None,
+        attrs: Iterable[str] = None,
         prefix: str = "",
         suffix: str = "",
         validate: bool = True,
     ):
 
-        self.delegatee_cls = delegatee_cls
-        self._attrs = self._parse_attrs(delegatee_cls, attrs)
+        if attrs is None:
+            raise ValueError("attrs parameter cannot be None")
 
-        if validate:
+        self.delegatee_cls = delegatee_cls
+
+        if delegatee_cls is not None:
+            self._attrs = self._parse_attrs(delegatee_cls, attrs)
+        else:
+            self._attrs = tuple(attrs)
+
+        if validate and (delegatee_cls is not None):
             self._validate_delegatee_methods(self.delegatee_cls, self._attrs)
 
         self._prefix = prefix
         self._suffix = suffix
+
+    @classmethod
+    def from_iterable(cls, attrs: Iterable[str]) -> "delegatee":
+        """Constructs delegatee instance from iterable"""
+        return cls(None, attrs, validate=False)
 
     def __iter__(self):
         for attr_name in self._attrs:
@@ -96,10 +109,13 @@ class delegatee:
         return attr_name.startswith("__") and attr_name.endswith("__")
 
     @staticmethod
-    def _validate_delegatee_methods(delegatee_cls: Type, attrs: Iterable[str]) -> None:
+    def _validate_delegatee_methods(
+        delegatee_cls: Type[Any], attrs: Iterable[str]
+    ) -> None:
         """Checks if delegatee_cls has all attributes/methods in attrs"""
 
         cls_attrs_methods = tuple(delegatee_cls.__dict__.keys())
+        cls_attrs_methods = tuple([a[0] for a in inspect.getmembers(delegatee_cls)])
         # Remark: includes methods and class attributes only, it doesn't detect instance attributes!!!
 
         for attr_name in attrs:
@@ -124,6 +140,12 @@ def compclass(
             - key must be the class attribute name from which we want to forward methods
             - value must be either a sequence of method names or a delegatee instance
         verbose: verbisity level (0-4)
+            - 0: SILENT
+            - 1: SET
+            - 2: GET
+            - 3: DEL
+            - 4: ALL
+        log_func: function used to log, unused if verbose = 0
 
     Raises:
         ValueError: delegates param cannot be None
@@ -137,6 +159,11 @@ def compclass(
     def wrap(cls):
 
         for delegatee_name, delegatee_instance in delegates.items():
+
+            # TODO: Do we even want this feature?
+            # This only works if one has the same instance delegator instance all the time!
+            # if not isinstance(delegatee_instance.delegatee_cls, type):
+            #     setattr(cls, delegatee_name, delegatee_instance.delegatee_cls)
 
             for attr_name in delegatee_instance:
 
@@ -191,8 +218,12 @@ def _property_from_delegator(
         prefix: prefix of new method
         suffix: suffix of new method
         verbose: verbosity level
+        log_func: function used to log, unused if verbose = 0
     """
-    wrapped_delegatee = attrgetter(delegatee_cls_name)
+
+    wrapped_delegatee = attrgetter(
+        delegatee_cls_name
+    )  # => wrapped_delegatee(self) returns self.delegatee_cls_name
 
     if verbose in (1, 4):
         log_func(
@@ -212,17 +243,24 @@ def _property_from_delegator(
         """function to be used for setting an attribute value"""
         if verbose in (1, 4):
             log_func(f"Setting {prefix}{attr_name}{suffix} to {value}")
-        return setattr(wrapped_delegatee(self), f"{prefix}{attr_name}{suffix}", value)
+        return setattr(wrapped_delegatee(self), attr_name, value)
 
     def fdel(self):
-        """function to be used for del'ing an attribute"""
+        """
+        function to be used for del'ing an attribute
+
+        Remark:
+            This should never work when using delegatee(..., validate=True) as only
+            cls methods and cls attributes can be detected, but cannot be deleted from an instance
+        """
+
         if verbose in (3, 4):
             log_func(f"Deleting {prefix}{attr_name}{suffix} from {orig_cls.__name__}")
+        return delattr(wrapped_delegatee(self), attr_name)
 
-        delattr(wrapped_delegatee(self), f"{prefix}{attr_name}{suffix}")
-
-    def doc(self) -> Optional[str]:
-        """docstring"""
-        return getattr(wrapped_delegatee(self), attr_name).__doc__
-
-    setattr(orig_cls, f"{prefix}{attr_name}{suffix}", property(fget, fset, fdel, doc))
+    # orig_cls.<{prefix}{attr_name}{suffix}> = property(...)
+    setattr(
+        orig_cls,
+        f"{prefix}{attr_name}{suffix}",
+        property(fget=fget, fset=fset, fdel=fdel, doc=fget.__doc__),
+    )
