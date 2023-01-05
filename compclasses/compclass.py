@@ -161,7 +161,7 @@ def compclass(
         for delegatee_name, delegatee_instance in delegates.items():
 
             # TODO: Do we even want this feature?
-            # This only works if one has the same instance delegator instance all the time!
+            # This only make sense if one has the same delegator instance all the time!
             # if not isinstance(delegatee_instance.delegatee_cls, type):
             #     setattr(cls, delegatee_name, delegatee_instance.delegatee_cls)
 

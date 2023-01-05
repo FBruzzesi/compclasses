@@ -44,8 +44,10 @@ extra_javascript:
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 nav:
   - Compclasses: index.md
-  - Getting Started: getting_started.md
-  - Beyond The Basics: beyond_basics.md
+  - User Guide:
+    - user_guide/getting_started.md
+    - user_guide/beyond_basics.md
+  - Why Composition: composition.md
   - API:
     - compclass: api/compclass.md
     - delegatee: api/delegatee.md

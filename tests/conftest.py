@@ -16,7 +16,7 @@ class Foo:
 
     def hello_from_foo(self, name: str) -> str:
         """Method with argument"""
-        return f"Hello {name}, this is Bar!"
+        return f"Hello {name}, this is Foo!"
 
     def __len__(self) -> int:
         """Custom len method"""
