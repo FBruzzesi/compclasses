@@ -24,3 +24,16 @@ test:
 	pytest tests -vv
 
 precommit: clean-folders test interrogate sort format clean-folders
+
+doc:
+	mkdocs serve
+
+pypi-push:
+	python -m pip install twine wheel --no-cache-dir
+
+	python setup.py sdist
+	python setup.py bdist_wheel --universal
+	twine upload dist/*
+
+interrogate-badge:
+	interrogate -vv --ignore-nested-functions --ignore-semiprivate --ignore-private --ignore-magic --ignore-module --ignore-init-method  --generate-badge docs/img/interrogate-shield.svg

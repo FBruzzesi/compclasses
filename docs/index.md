@@ -1,4 +1,4 @@
-<img src="docs/img/compclass-logo.svg" width=180 height=180 align="right">
+<img src="img/compclass-logo.svg" width=180 height=180 align="right">
 
 # compclasses
 
