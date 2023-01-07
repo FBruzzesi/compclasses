@@ -1,6 +1,5 @@
 import inspect
 import logging
-import sys
 from enum import IntEnum
 from itertools import filterfalse, tee
 from operator import attrgetter
