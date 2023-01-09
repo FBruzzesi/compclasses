@@ -15,6 +15,16 @@ def has_all_attrs(cls: Type, attrs: Tuple[str], prefix: str, suffix: str):
         assert hasattr(cls, attr_name)
 
 
+def delete_all_attrs(cls: Type, attrs: Tuple[str], prefix: str, suffix: str):
+    """Deletes all attributes from a list in a class"""
+    for attr in attrs:
+
+        attr_name = (
+            attr if delegatee._is_dunder_method(attr) else f"{prefix}{attr}{suffix}"
+        )
+        delattr(cls, attr_name)
+
+
 @pytest.mark.parametrize(
     "foo_attrs",
     [("__len__",), ("get_foo", "a"), ("__len__", "get_foo", "hello_from_foo")],
@@ -43,7 +53,7 @@ def test_compclass(
     bar_prefix: str,
     bar_suffix: str,
 ):
-    """Test for property_from_delegator function"""
+    """Test for compclass decorator"""
 
     Baz = baz_cls
     delegates = {
@@ -78,9 +88,14 @@ def test_compclass(
     has_all_attrs(baz_obj, foo_attrs, foo_prefix, foo_suffix)
     has_all_attrs(baz_obj, bar_attrs, bar_prefix, bar_suffix)
 
+    # Delete all attrs
+    delete_all_attrs(Baz, foo_attrs, foo_prefix, foo_suffix)
+    delete_all_attrs(Baz, bar_attrs, bar_prefix, bar_suffix)
+
 
 def test_compclass_error(
     baz_cls,
 ):
+    """Test for compclass without delegates"""
     with pytest.raises(ValueError):
-        Baz = compclass(baz_cls)
+        compclass(baz_cls)

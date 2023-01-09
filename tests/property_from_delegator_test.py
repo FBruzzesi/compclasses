@@ -77,3 +77,5 @@ def test_property_from_delegator_logs(
 
     _ = getattr(baz_obj, attr_name)
     assert f"Calling {attr_name} from {delegatee_cls_name}.{attr_name}" in caplog.text
+
+    delattr(Baz, attr_name)

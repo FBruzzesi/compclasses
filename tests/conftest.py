@@ -43,21 +43,21 @@ class Baz:
         self.bar = bar
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(autouse=True)
 def foo_cls():
     """Fixture returning Foo class definition"""
 
     yield Foo
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(autouse=True)
 def bar_cls():
     """Fixture returning Bar class definition"""
 
     yield Bar
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(autouse=True)
 def baz_cls():
     """Fixture returning Bar class definition"""
 
