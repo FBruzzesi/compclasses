@@ -30,9 +30,9 @@ class Bar:
 
     b: float = 0.1
 
-    def __len__(self) -> int:
-        """Custom bar len method"""
-        return 42
+    def __bool__(self) -> bool:
+        """Custom bar bool method"""
+        return True
 
 
 class Baz:
@@ -43,22 +43,22 @@ class Baz:
         self.bar = bar
 
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def foo_cls():
     """Fixture returning Foo class definition"""
 
-    return Foo
+    yield Foo
 
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def bar_cls():
     """Fixture returning Bar class definition"""
 
-    return Bar
+    yield Bar
 
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def baz_cls():
     """Fixture returning Bar class definition"""
 
-    return Baz
+    yield Baz

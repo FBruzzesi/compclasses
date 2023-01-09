@@ -8,10 +8,10 @@ from compclasses.compclass import _property_from_delegator
 @pytest.mark.parametrize(
     "attr_name, prefix, suffix, method_args",
     [
+        ("__len__", "", "", tuple()),
         ("get_foo", "", "", tuple()),
         ("get_foo", "", "_from_foo_cls", tuple()),
         ("hello_from_foo", "", "_from_foo_cls", ("GitHub",)),
-        ("__len__", "", "", tuple()),
     ],
 )
 def test_property_from_delegator(
@@ -31,6 +31,8 @@ def test_property_from_delegator(
     new_attr_name = f"{prefix}{attr_name}{suffix}"
 
     Baz = baz_cls
+
+    assert not hasattr(Baz, new_attr_name)
 
     _property_from_delegator(
         orig_cls=Baz,
