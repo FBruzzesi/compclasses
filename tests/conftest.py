@@ -4,7 +4,7 @@ import pytest
 class Foo:
     """Foo class"""
 
-    a: float = 0.1
+    a: int = 1
 
     def __init__(self, value: int):
         """foo init"""
@@ -18,23 +18,29 @@ class Foo:
         """Method with argument"""
         return f"Hello {name}, this is Foo!"
 
-    def __len__(self) -> int:
-        """Custom len method"""
-        return 42
+    def __len__(self):
+        """Custom foo len method"""
+        return 123
 
-    # TODO: test staticmethod's, classmethod's, property's
+    # TODO: add staticmethod's, classmethod's, property's to test
 
 
 class Bar:
     """Bar class"""
 
-    def __init__(self, foo: Foo, bar_value: int = 123):
-        self.foo = foo
-        self._bar = bar_value
+    b: float = 0.1
 
-    def get_bar(self):
-        """get _bar attribute"""
-        return self._bar
+    def __len__(self) -> int:
+        """Custom bar len method"""
+        return 42
+
+
+class Baz:
+    """Baz class"""
+
+    def __init__(self, foo: Foo, bar: Bar):
+        self.foo = foo
+        self.bar = bar
 
 
 @pytest.fixture
@@ -49,3 +55,10 @@ def bar_cls():
     """Fixture returning Bar class definition"""
 
     return Bar
+
+
+@pytest.fixture
+def baz_cls():
+    """Fixture returning Bar class definition"""
+
+    return Baz
