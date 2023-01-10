@@ -1,4 +1,4 @@
-from typing import Any, Callable, Dict, Iterable, Tuple, Type, Union
+from typing import Any, Dict, Iterable, Tuple, Type, Union
 
 import pytest
 

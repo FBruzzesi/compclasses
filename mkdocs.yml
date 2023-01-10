@@ -1,8 +1,19 @@
+# Project information
 site_name: Compclasses
 site_description: Like *dataclasses*, but for composition
 site_url: https://fbruzzesi.github.io/compclasses/
+site_author: Francesco Bruzzesi
+
+# Repository information
+repo_name: FBruzzesi/compclasses
+repo_url: https://github.com/fbruzzesi/compclasses
+
+# Configuration
 theme:
   name: material
+  font:
+    text: Roboto
+    code: Roboto Mono
   palette:
   - media: '(prefers-color-scheme: light)'
     scheme: default
@@ -19,29 +30,81 @@ theme:
       icon: material/lightbulb-outline
       name: Switch to dark mode
   features:
-  - search.suggest
-  - search.highlight
-  - content.tabs.link
+    - content.action.edit
+    - content.action.view
+    - content.code.annotate
+    - content.code.copy
+    - content.tooltips
+    - search.suggest
+    - search.highlight
+    - content.tabs.link
+    - navigation.footer
+    - navigation.indexes
+    - navigation.top
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
   logo: img/compclass-logo.svg
   favicon: img/compclass-logo.svg
-  language: en
-repo_name: FBruzzesi/compclasses
-repo_url: https://github.com/fbruzzesi/compclasses
-edit_uri: ''
+
+# Plugins
 plugins:
-- search
-- mkdocstrings
+  - mkdocstrings
+  - search:
+      separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
+
+# Customization
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/fbruzzesi
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/compclasses/
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/francesco-bruzzesi/
+
+# Extensions
 markdown_extensions:
+  - abbr
   - admonition
+  - attr_list
   - codehilite
-  - pymdownx.superfences
+  - def_list
+  - footnotes
+  - md_in_html
   - toc:
       permalink: true
   - pymdownx.arithmatex:
       generic: true
-extra_javascript:
-  - https://polyfill.io/v3/polyfill.min.js?features=es6
-  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      repo_url_shorthand: true
+      user: squidfunk
+      repo: mkdocs-material
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+
+# extra_javascript:
+#   - https://polyfill.io/v3/polyfill.min.js?features=es6
+#   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+# Documentation webpage tree
 nav:
   - Compclasses: index.md
   - Why Composition: composition.md

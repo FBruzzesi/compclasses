@@ -16,3 +16,27 @@ This codebase wants to address such issue and make it easy to do so, by [delegat
 ## Alpha Notice
 
 This codebase is experimental and is working for my use cases. It is very probable that there are cases not covered and for which everything breaks. If you find them, please feel free to open an issue in the [issue page](https://github.com/FBruzzesi/compclasses/issues) of the repo.
+
+## Installation
+
+### Using pip
+
+**compclasses** is published as a Python package on pypi, and it can be installed with pip, ideally by using a virtual environment. From a terminal it is possible to install it with:
+
+```bash
+python -m pip install compclasses
+```
+
+### Using git
+
+It is possible to install the library "directly" from GitHub by:
+
+- Cloning the project repo using `git`
+- Moving to the folder
+- Installing the library using `pip`
+
+```bash
+git clone https://github.com/FBruzzesi/compclasses.git
+cd compclasses
+python -m pip install .
+```
