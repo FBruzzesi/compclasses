@@ -21,7 +21,9 @@ sort:
 	isort .
 
 test:
+	rm -rf .pytest_cache
 	pytest tests -vv
+	rm -rf .pytest_cache
 
 precommit: clean-folders test interrogate sort format clean-folders
 
