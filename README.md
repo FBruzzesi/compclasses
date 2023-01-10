@@ -131,7 +131,7 @@ Any feedback, improvement/enhancement or issue is welcome in the [issue page](ht
 
 Make sure to check the [issue list](https://github.com/FBruzzesi/compclasses/issues) beforehand.
 
- To get started locally, you can clone the repo and quickly get started using the `Makefile`:
+To get started locally, you can clone the repo and quickly get started using the `Makefile`:
 
 ```bash
 git clone git@github.com:FBruzzesi/compclasses.git

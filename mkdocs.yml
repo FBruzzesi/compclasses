@@ -1,8 +1,9 @@
 # Project information
 site_name: Compclasses
-site_description: Like *dataclasses*, but for composition
 site_url: https://fbruzzesi.github.io/compclasses/
 site_author: Francesco Bruzzesi
+site_description: >-
+  Just as *dataclasses*, but for composition
 
 # Repository information
 repo_name: FBruzzesi/compclasses
@@ -114,3 +115,5 @@ nav:
   - API:
     - compclass: api/compclass.md
     - delegatee: api/delegatee.md
+  - Inspiration: inspiration.md
+  - Contributing: contribution.md
