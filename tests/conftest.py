@@ -65,18 +65,18 @@ def create_baz_cls() -> Type:
 def foo_cls() -> Type:
     """Fixture returning Foo class definition"""
 
-    yield create_foo_cls()
+    return create_foo_cls()
 
 
 @pytest.fixture(scope="function")
 def bar_cls() -> Type:
     """Fixture returning Bar class definition"""
 
-    yield create_bar_cls()
+    return create_bar_cls()
 
 
 @pytest.fixture(scope="function")
 def baz_cls() -> Type:
     """Fixture returning Baz class definition"""
 
-    yield create_baz_cls()
+    return create_baz_cls()
