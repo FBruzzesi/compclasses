@@ -55,8 +55,8 @@ class delegatee:
 
     def __init__(
         self,
-        delegatee_cls: Optional[Type[Any]] = None,
-        attrs: Iterable[str] = None,
+        delegatee_cls: Type[Any],
+        attrs: Iterable[str],
         prefix: str = "",
         suffix: str = "",
         validate: bool = True,
@@ -77,11 +77,6 @@ class delegatee:
 
         self._prefix = prefix
         self._suffix = suffix
-
-    @classmethod
-    def from_iterable(cls, attrs: Iterable[str]) -> "delegatee":
-        """Constructs delegatee instance from iterable"""
-        return cls(None, attrs, validate=False)
 
     def __iter__(self):
         for attr_name in self._attrs:
@@ -125,11 +120,11 @@ class delegatee:
 
 
 def compclass(
-    cls: Type[Any] = None,
-    delegates: Dict[str, Union[Iterable[str], delegatee]] = None,
+    cls: Optional[Type[Any]] = None,
+    delegates: Optional[Dict[str, Union[Iterable[str], delegatee]]] = None,
     verbose: Union[Verbose, int] = Verbose.SILENT,
-    log_func: Callable = logger.info,
-) -> Union[Callable[[Any], Any], Type[Any]]:
+    log_func: Callable[[str], None] = logger.info,
+) -> Union[Callable[[Any], Type[Any]], Type[Any]]:
     """
     Adds methods from delegates to cls
 
@@ -155,7 +150,10 @@ def compclass(
     if delegates is None:
         raise ValueError("`delegates` cannot be None")
 
-    def wrap(cls):
+    def wrap(
+        cls: Type[Any],
+        delegates: Dict[str, Union[Iterable[str], delegatee]] = delegates,
+    ) -> Type[Any]:
 
         for delegatee_name, delegatee_instance in delegates.items():
 
@@ -201,7 +199,7 @@ def _property_from_delegator(
     prefix: str = "",
     suffix: str = "",
     verbose: Union[Verbose, int] = Verbose.SILENT,
-    log_func: Callable = logger.info,
+    log_func: Callable[[str], None] = logger.info,
 ):
     """
     Define a property `{prefix}{attr_name}{suffix}` in the `orig_cls` scope to access as

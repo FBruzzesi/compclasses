@@ -1,4 +1,4 @@
-from typing import Tuple, Type
+from typing import Any, Callable, Dict, Iterable, Tuple, Type, Union
 
 import pytest
 
@@ -45,8 +45,7 @@ def test_compclass(
 ):
     """Test for compclass decorator"""
 
-    Baz = baz_cls
-    delegates = {
+    delegates: Dict[str, Union[Iterable[str], delegatee]] = {
         "foo": delegatee(
             delegatee_cls=foo_cls,
             attrs=foo_attrs,
@@ -64,7 +63,7 @@ def test_compclass(
     }
 
     # Check class definition
-    Baz = compclass(Baz, delegates)
+    Baz: Type[Any] = compclass(baz_cls, delegates=delegates)
 
     has_all_attrs(Baz, foo_attrs, foo_prefix, foo_suffix)
     has_all_attrs(Baz, bar_attrs, bar_prefix, bar_suffix)
