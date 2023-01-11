@@ -146,17 +146,21 @@ def compclass(
     ```python
     class Foo:
         a = 1
-        b = 2
 
-    @compclass(delegates={"foo": ("a", "b")})
+        def __len__(self) -> int:
+            # custom len method
+            return 42
+
+    @compclass(delegates={"_foo": ("a", "__len__")})
     class Bar:
         def __init__(self, foo: Foo):
-            self.foo = foo
+            self._foo = foo
 
     foo = Foo()
     bar = Bar(foo)
 
-    bar.a  # -> 1 (instead of bar.foo.a)
+    bar.a  # -> 1 (instead of bar._foo.a)
+    len(bar)  # -> 42 (instead of len(bar._foo))
     ```
 
     Arguments:

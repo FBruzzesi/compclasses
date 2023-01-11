@@ -1,6 +1,6 @@
 <img src="docs/img/compclass-logo.svg" width=180 height=180 align="right">
 
-# compclasses
+# Compclasses
 
 Like *dataclasses*, but for composition.
 
@@ -12,9 +12,27 @@ However when we use composition in Python, we cannot access methods directly fro
 
 This codebase wants to address such issue and make it easy to do so, by [delegating](https://en.wikipedia.org/wiki/Delegation_(object-oriented_programming)) the desired methods of a class to its attributes.
 
+---
+
+**Documentation**: https://fbruzzesi.github.io/compclasses
+
+**Source Code**: https://github.com/fbruzzesi/compclasses
+
+---
+
 ## Alpha Notice
 
 This codebase is experimental and is working for my use cases. It is very probable that there are cases not covered and for which everything breaks. If you find them, please feel free to open an issue in the [issue page](https://github.com/FBruzzesi/compclasses/issues) of the repo.
+
+## Installation
+
+**compclasses** is published as a Python package on [pypi](https://pypi.org/), and it can be installed with pip, ideally by using a virtual environment.
+
+From a terminal it is possible to install it with:
+
+```bash
+python -m pip install compclasses
+```
 
 ## Getting Started
 
@@ -26,11 +44,11 @@ class Foo:
 
     def __init__(self, value: int):
         """foo init"""
-        self._foo: int = value
+        self.value = value
 
     def get_foo(self):
-        """get _foo attribute"""
-        return self._foo
+        """get value attribute"""
+        return self.value
 
     def hello_from_foo(self, name: str) -> str:
         """Method with argument"""
@@ -48,8 +66,8 @@ class Baz:
     """Baz class"""
 
     def __init__(self, foo: Foo, bar: Bar):
-        self.foo = foo
-        self.bar = bar
+        self._foo = foo
+        self._bar = bar
 ```
 
 Now let's instantiate them and try see how we would access the inner methods/attributes:
@@ -60,9 +78,9 @@ bar = Bar()
 
 baz = Baz(foo, bar)
 
-baz.foo.get_foo()  # -> 123
-baz.foo.hello_from_foo("GitHub")  # -> "Hello GitHub, this is Foo!"
-baz.bar.__len__()  # -> 42
+baz._foo.get_foo()  # -> 123
+baz._foo.hello_from_foo("GitHub")  # -> "Hello GitHub, this is Foo!"
+baz._bar.__len__()  # -> 42
 
 len(baz)  # -> TypeError: object of type 'Baz' has no len()
 ```
@@ -72,9 +90,9 @@ Using the `compclass` decorator we can *forward* the methods that we want to the
 ```python
 from compclasses import compclass
 
-delegates={
-    "foo": ( "get_foo", "hello_from_foo"),
-    "bar": ("__len__", )
+delegates = {
+    "_foo": ( "get_foo", "hello_from_foo"),
+    "_bar": ("__len__", )
 }
 
 @compclass(delegates=delegates)
@@ -82,8 +100,8 @@ class Baz:
     """Baz class"""
 
     def __init__(self, foo: Foo, bar: Bar):
-        self.foo = foo
-        self.bar = bar
+        self._foo = foo
+        self._bar = bar
 
 baz = Baz(foo, bar)
 baz.get_foo()  # -> 123
@@ -98,30 +116,47 @@ Remark that in the `delegates` dictionary, we have that:
 - the key corresponds to the attribute name in the Baz class
 - the value should be an iterable of string corresponding to methods/attributes present in the class instance associated to the key-attribute.
 
-## Installation
+### delegatee class
 
-You can install the library using pip:
+Instead of using an iterable in the value part of the `delegates` dictionary, it is possible to use the `delegatee` class.
 
-```bash
-python -m pip install compclasses
+Such class supports some additional features such as:
+
+- Attributes/methods validation.
+- It allows to pass `*` value to pass all non-dunder attributes/methods.
+- Custom attributes/methods prefix and/or suffix.
+
+Since `get_foo` and `hello_from_foo` are the only two methods of the `Foo` class, the previous example can be rewritten as:
+
+```python
+from compclasses import compclass, delegatee
+
+delegates = {
+    "_foo": delegatee(Foo, attrs=["*"]),
+    "_bar": delegatee(Bar, attrs=["__len__"])
+}
+
+@compclass(delegates=delegates)
+class Baz:
+    """Baz class"""
+
+    def __init__(self, foo: Foo, bar: Bar):
+        self._foo = foo
+        self._bar = bar
+
+baz = Baz(foo, bar)
+baz.get_foo()  # -> 123
+baz.hello_from_foo("GitHub")  # -> "Hello GitHub, this is Foo!"
+len(baz)  # -> 42
 ```
 
-## Why Composition
+Check the dedicated [documentation page](https://fbruzzesi.github.io/compclasses/user_guide/beyond_basics/) to get a better understanding and see more examples on how `delegatee` can be used, its pros and cons.
 
-Composition is in general more flexible than inheritance. This doesn't mean that we should never use inheritance.
+## Why Composition (TL;DR)
 
-As a rule of thumb, one can think to:
+Overall, composition is a more flexible and transparent way to reuse code and design classes in Python. It allows to build classes that are customized to your specific needs, and it promotes code reuse and modularity.
 
-- Use composition if object `A` *has a* relationship with object `B` (e.g. a square has a side).
-- Use inheritance if object `A` *is a* specification of object `B` (e.g. a square is a shape).
-
-One of the most common drawback of using composition is *exactly* the fact that methods/attributes provided by single components may have to be implemented again.
-
-There are many resources where one can get a better understanding of why and when to prefer composition over inheritance:
-
-- [Wikipedia page](https://en.wikipedia.org/wiki/Composition_over_inheritance)
-- [Stack overflow discussion](https://stackoverflow.com/questions/49002/prefer-composition-over-inheritance)
-- [The perils of inheritance - by Ariel Ortiz](https://www.youtube.com/watch?v=YXiaWtc0cgE&list=WL&index=1)
+A more detailed explaination is present in the dedicated [documentation page](https://fbruzzesi.github.io/compclasses/composition).
 
 ## Feedbacks
 
@@ -129,20 +164,21 @@ Any feedback, improvement/enhancement or issue is welcome in the [issue page](ht
 
 ## Contributing
 
-Make sure to check the [issue list](https://github.com/FBruzzesi/compclasses/issues) beforehand.
+Please refer to the [contributing guidelines](https://fbruzzesi.github.io/compclasses/CONTRIBUTING) in the documentation site.
 
-To get started locally, you can clone the repo and quickly get started using the `Makefile`:
+## Inspiration
 
-```bash
-git clone git@github.com:FBruzzesi/compclasses.git
-cd compclasses
-make init-dev
-```
+This projects is inspired by the [forwardable](https://github.com/5long/forwardable) library, a "utility for easy object composition via delegation".
+
+However I was looking for both more flexibility and more features. In particular:
+
+- a clear separation between class definition and method forwarding;
+- a validation step to make sure that changing something from the component doesn't break the class;
+- the possibility to forward all the methods/attributes of a given component with a single instruction;
+- the chance of adding prefix and/or suffix for each component;
+
+Please refer to [Beyond the basics](user_guide/beyond_basics.md) page to see example usages.
 
 ## Licence
 
-This repository has a MIT Licence
-
-## Other projects
-
-This projects is inspired by the [forwardable](https://github.com/5long/forwardable) library, however I was looking for both more flexibility and more features.
+The project has a [MIT Licence](https://github.com/FBruzzesi/compclasses/blob/main/LICENSE)

@@ -1,6 +1,7 @@
 <img src="img/compclass-logo.svg" width=180 height=180 align="right">
 
-# compclasses
+
+# Compclasses
 
 Like *dataclasses*, but for composition.
 
@@ -12,10 +13,18 @@ However when we use composition in Python, we cannot access methods directly fro
 
 This codebase wants to address such issue and make it easy to do so, by [delegating](https://en.wikipedia.org/wiki/Delegation_(object-oriented_programming)) the desired methods of a class to its attributes.
 
+---
+
+**Documentation**: https://fbruzzesi.github.io/compclasses
+
+**Source Code**: https://github.com/fbruzzesi/compclasses
+
+---
 
 ## Alpha Notice
 
 This codebase is experimental and is working for my use cases. It is very probable that there are cases not covered and for which everything breaks. If you find them, please feel free to open an issue in the [issue page](https://github.com/FBruzzesi/compclasses/issues) of the repo.
+
 
 ## Installation
 
@@ -23,7 +32,9 @@ The library is dependency-free, it only uses built-in modules from the [Python S
 
 ### Using pip
 
-**compclasses** is published as a Python package on pypi, and it can be installed with pip, ideally by using a virtual environment. From a terminal it is possible to install it with:
+**compclasses** is published as a Python package on [pypi](https://pypi.org/), and it can be installed with pip, ideally by using a virtual environment.
+
+From a terminal it is possible to install it with:
 
 ```bash
 python -m pip install compclasses
@@ -45,4 +56,4 @@ python -m pip install .
 
 ## License
 
-The project has a [MIT Licence](https://en.wikipedia.org/wiki/MIT_License)
+The project has a [MIT Licence](https://github.com/FBruzzesi/compclasses/blob/main/LICENSE)

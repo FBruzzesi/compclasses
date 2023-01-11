@@ -8,11 +8,11 @@ class Foo:
 
     def __init__(self, value: int):
         """foo init"""
-        self._foo: int = value
+        self.value = value
 
     def get_foo(self):
-        """get _foo attribute"""
-        return self._foo
+        """get value attribute"""
+        return self.value
 
     def hello_from_foo(self, name: str) -> str:
         """Method with argument"""
@@ -30,8 +30,8 @@ class Baz:
     """Baz class"""
 
     def __init__(self, foo: Foo, bar: Bar):
-        self.foo = foo
-        self.bar = bar
+        self._foo = foo
+        self._bar = bar
 ```
 
 Now let's instantiate them and try see how we would access the inner methods/attributes:
@@ -42,9 +42,9 @@ bar = Bar()
 
 baz = Baz(foo, bar)
 
-baz.foo.get_foo()  # -> 123
-baz.foo.hello_from_foo("GitHub")  # -> "Hello GitHub, this is Foo!"
-baz.bar.__len__()  # -> 42
+baz._foo.get_foo()  # -> 123
+baz._foo.hello_from_foo("GitHub")  # -> "Hello GitHub, this is Foo!"
+baz._bar.__len__()  # -> 42
 
 len(baz)  # -> TypeError: object of type 'Baz' has no len()
 ```
@@ -54,9 +54,9 @@ Using the `compclass` decorator we can *forward* the methods that we want to the
 ```python
 from compclasses import compclass
 
-delegates={
-    "foo": ( "get_foo", "hello_from_foo"),
-    "bar": ("__len__", )
+delegates = {
+    "_foo": ( "get_foo", "hello_from_foo"),
+    "_bar": ("__len__", )
 }
 
 @compclass(delegates=delegates)
@@ -64,8 +64,8 @@ class Baz:
     """Baz class"""
 
     def __init__(self, foo: Foo, bar: Bar):
-        self.foo = foo
-        self.bar = bar
+        self._foo = foo
+        self._bar = bar
 
 baz = Baz(foo, bar)
 baz.get_foo()  # -> 123

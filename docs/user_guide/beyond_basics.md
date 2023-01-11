@@ -4,7 +4,9 @@
 
 In order to have both more flexibility and more features, we can use the `delegatee` class instead of an iterable specifying which methods and class attributes should be forwarded.
 
-### Class attributes and methods validation
+## Features
+
+### Attributes and methods validation
 
 When using `delegatee` class we have the option to check whether or not attributes and methods are present in the class.
 If we do so (`validate=True` parameter), then an `AttributeError` is raised if the attribute/method is not found in the class definition.
