@@ -1,7 +1,0 @@
-# Contributing
-
-## Developing
-
-## Docs
-
-## Tests
