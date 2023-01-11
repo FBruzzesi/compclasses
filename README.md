@@ -118,13 +118,13 @@ Remark that in the `delegates` dictionary, we have that:
 
 ### delegatee class
 
-Instead of using an iterable in the value part of the `delegates` dictionary, it is possible to use the `delegatee` class.
+Instead of using an iterable in the `delegates` dictionary, it is possible to pass a `delegatee` instance as a value.
 
 Such class supports some additional features such as:
 
-- Attributes/methods validation.
-- It allows to pass `*` value to pass all non-dunder attributes/methods.
-- Custom attributes/methods prefix and/or suffix.
+- class attributes and methods validation.
+- it allows to pass `*` value to pass all non-dunder attributes/methods.
+- adding custom attributes/methods prefix and/or suffix.
 
 Since `get_foo` and `hello_from_foo` are the only two methods of the `Foo` class, the previous example can be rewritten as:
 

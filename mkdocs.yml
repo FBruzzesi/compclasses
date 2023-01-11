@@ -115,5 +115,5 @@ nav:
   - API Reference:
     - compclass: api/compclass.md
     - delegatee: api/delegatee.md
-  - Contributing: CONTRIBUTING.md
+  - Contributing: contribute.md
   - Inspiration: inspiration.md
