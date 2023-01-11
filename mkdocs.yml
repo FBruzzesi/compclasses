@@ -112,7 +112,7 @@ nav:
   - User Guide:
     - user_guide/getting_started.md
     - user_guide/beyond_basics.md
-  - API:
+  - API Reference:
     - compclass: api/compclass.md
     - delegatee: api/delegatee.md
   - Inspiration: inspiration.md

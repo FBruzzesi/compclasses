@@ -19,6 +19,8 @@ This codebase is experimental and is working for my use cases. It is very probab
 
 ## Installation
 
+The library is dependency-free, it only uses built-in modules from the [Python Standard Library](https://docs.python.org/3/library/).
+
 ### Using pip
 
 **compclasses** is published as a Python package on pypi, and it can be installed with pip, ideally by using a virtual environment. From a terminal it is possible to install it with:
@@ -40,3 +42,7 @@ git clone https://github.com/FBruzzesi/compclasses.git
 cd compclasses
 python -m pip install .
 ```
+
+## License
+
+The project has a [MIT Licence](https://en.wikipedia.org/wiki/MIT_License)

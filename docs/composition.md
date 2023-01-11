@@ -39,7 +39,7 @@ As a rule of thumb, one can think to:
 
 One of the most common *drawback* of using composition is *exactly* the fact that methods/attributes provided by single components may have to be implemented again.
 
-## Extra Resources
+## Resources/References
 
 There are many resources where one can get a better understanding of why and when to prefer composition over inheritance:
 

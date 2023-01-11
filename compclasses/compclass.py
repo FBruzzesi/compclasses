@@ -32,7 +32,13 @@ def partition(
 
 class delegatee:
     """
-    Base delegatee class
+    Base delegatee class, used in place of an iterable when defining delegates.
+
+    This class provides the following features:
+
+    - It allows to validate the delegatee class attributes/methods
+    - It supports the "*" argument in attrs param, which automatically detects all non-dunder methods/attributes
+    - It enables adding prefix and/or suffix to non-dunder methods/attributes
 
     Arguments:
         delegatee_cls: class from which we delegate.
@@ -43,6 +49,7 @@ class delegatee:
         prefix: injected method prefix, unused with dunder methods
         suffix: injected method suffix, unused with dunder methods
         validate: whether or not to validate if delegatee_cls has all the attrs.
+
             Remark that validate function includes methods and class attributes only,
             it doesn't detect instance attributes, therefore if instance attributes are passed
             and validate param is True then the check will fail.
@@ -126,29 +133,57 @@ def compclass(
     log_func: Callable[[str], None] = logger.info,
 ) -> Union[Callable[[Any], Type[Any]], Type[Any]]:
     """
-    Adds methods from delegates to cls
+    Adds class attributes/methods from `delegates` to `cls` object as class properties.
+
+    `delegates` dictionary consists of key-value pair, of the following form.
+    The key corresponds to the name of the cls attribute to which the delegate instance is assigned to.
+    The value should be an iterable or `delegatee` instance with the name of the attributes/methods to forward.
+
+    `verbose` defines the level of verbosity when setting-calling-deleting those forwarded methods.
+
+    The function can be used as a class decorator:
+
+    ```python
+    class Foo:
+        a = 1
+        b = 2
+
+    @compclass(delegates={"foo": ("a", "b")})
+    class Bar:
+        def __init__(self, foo: Foo):
+            self.foo = foo
+
+    foo = Foo()
+    bar = Bar(foo)
+
+    bar.a  # -> 1 (instead of bar.foo.a)
+    ```
 
     Arguments:
-        cls: class to decorate
+        cls: class to which attributes/methods should be forwarded to.
         delegates: key-value pair of delegates.
-            - key must be the class attribute name from which we want to forward methods
-            - value must be either a sequence of method names or a delegatee instance
-        verbose: verbisity level (0-4)
+
+            - key: name of the cls attribute to which the delegate instance is assigned to.
+            - value: must be either a sequence of method names or a delegatee instance.
+
+        verbose: defines the level of verbosity (0-4) when setting-calling-deleting forwarded methods.
+
             - 0: SILENT
             - 1: SET
             - 2: GET
             - 3: DEL
             - 4: ALL
+
         log_func: function used to log, unused if verbose = 0
 
     Raises:
-        ValueError: delegates param cannot be None
+        ValueError: `delegates` param cannot be `None`
 
     Returns:
         Type[Any]: class with added methods from delegates
     """
     if delegates is None:
-        raise ValueError("`delegates` cannot be None")
+        raise ValueError("`delegates` param cannot be `None`")
 
     def wrap(
         cls: Type[Any],
