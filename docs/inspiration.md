@@ -1,5 +1,7 @@
 # Inspiration
 
+## Library
+
 This projects is inspired by the [forwardable](https://github.com/5long/forwardable) library, a "utility for easy object composition via delegation".
 
 However I was looking for both more flexibility and more features. In particular:
@@ -10,3 +12,7 @@ However I was looking for both more flexibility and more features. In particular
 - the chance of adding prefix and/or suffix for each component;
 
 Please refer to [Beyond the basics](user_guide/beyond_basics.md) page to see example usages.
+
+## Docs
+
+Documentation style is inspired by [FastAPI](https://fastapi.tiangolo.com/) amazing docs.

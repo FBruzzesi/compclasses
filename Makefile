@@ -27,8 +27,11 @@ test:
 
 precommit: clean-folders test interrogate sort format clean-folders
 
-doc:
+docs-serve:
 	mkdocs serve
+
+docs-deploy:
+	mkdocs gh-deploy
 
 pypi-push:
 	python -m pip install twine wheel --no-cache-dir

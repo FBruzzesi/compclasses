@@ -1,26 +1,32 @@
 # Getting Started
 
-Let's suppose to have the following classes:
+## Introduction
 
-```python
+Let's suppose we have the following 3 classes, `Foo`, `Bar` and `Baz`:
+
+- `Foo` and `Bar` are independent from one another;
+- `Baz` get initialized with two class attributes (`_foo`, `_bar`) which are instances of the other two classes.
+
+```python title="Classes definition"
 class Foo:
     """Foo class"""
 
     def __init__(self, value: int):
         """foo init"""
-        self.value = value
+        self._value = value
 
-    def get_foo(self):
+    def get_value(self):
         """get value attribute"""
-        return self.value
+        return self._value
 
-    def hello_from_foo(self, name: str) -> str:
+    def hello(self, name: str) -> str:
         """Method with argument"""
         return f"Hello {name}, this is Foo!"
 
 
 class Bar:
     """Bar class"""
+    b: int = 1
 
     def __len__(self) -> int:
         """Custom len method"""
@@ -34,28 +40,30 @@ class Baz:
         self._bar = bar
 ```
 
-Now let's instantiate them and try see how we would access the inner methods/attributes:
+Now let's instantiate them and try see how we would access the "inner" attributes/methods:
 
-```python
+```python title="Naive approach"
 foo = Foo(123)
 bar = Bar()
 
 baz = Baz(foo, bar)
 
-baz._foo.get_foo()  # -> 123
-baz._foo.hello_from_foo("GitHub")  # -> "Hello GitHub, this is Foo!"
+baz._foo.get_value()  # -> 123
+baz._foo.hello("GitHub")  # -> "Hello GitHub, this is Foo!"
 baz._bar.__len__()  # -> 42
 
 len(baz)  # -> TypeError: object of type 'Baz' has no len()
 ```
 
-Using the `compclass` decorator we can *forward* the methods that we want to the `Baz` class at definition time:
+## Compclass decorator
 
-```python
+Using the `compclass` decorator we can *forward* the methods that we want to the `Baz` class from its attributes at definition time:
+
+```python title="Using compclass"
 from compclasses import compclass
 
 delegates = {
-    "_foo": ( "get_foo", "hello_from_foo"),
+    "_foo": ( "get_value", "hello"),
     "_bar": ("__len__", )
 }
 
@@ -68,8 +76,8 @@ class Baz:
         self._bar = bar
 
 baz = Baz(foo, bar)
-baz.get_foo()  # -> 123
-baz.hello_from_foo("GitHub")  # -> "Hello GitHub, this is Foo!"
+baz.get_value()  # -> 123
+baz.hello("GitHub")  # -> "Hello GitHub, this is Foo!"
 len(baz)  # -> 42
 ```
 
@@ -77,5 +85,16 @@ We can see how now we can access the methods directly.
 
 Remark that in the `delegates` dictionary, we have that:
 
-- the key corresponds to the attribute name in the Baz class
-- the value should be an iterable of string corresponding to methods/attributes present in the class instance associated to the key-attribute.
+- the keys correspond to the attribute names in the `Baz` class;
+- each value should be an iterable of string corresponding to methods/attributes present in the class instance associated to the key-attribute.
+
+The `compclass` decorator adds each attribute and method as a [property attribute](http://docs.python.org/3/library/functions.html#property), callable as
+`self.<attr_name>` instead of `self.<delegatee_cls>.<attr_name>`
+
+## Next Steps
+
+Instead of using an iterable in the `delegates` dictionary, we suggest to use a `delegatee` instance as a value.
+
+This will yield more flexibility and features when decide to forward class attributes and methods.
+
+In the next section we will do a deep dive into what these features are, how to use them and their pros and cons.

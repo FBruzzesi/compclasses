@@ -5,7 +5,7 @@ from itertools import filterfalse, tee
 from operator import attrgetter
 from typing import Any, Callable, Dict, Iterable, Optional, Tuple, Type, Union
 
-logging.basicConfig(format="%(asctime)s - %(message)s", level=logging.INFO)
+logging.basicConfig(format="%(message)s", level=logging.INFO)
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 

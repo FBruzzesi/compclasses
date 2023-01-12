@@ -1,6 +1,5 @@
 <img src="img/compclass-logo.svg" width=180 height=180 align="right">
 
-
 # Compclasses
 
 Like *dataclasses*, but for composition.
@@ -30,29 +29,27 @@ This codebase is experimental and is working for my use cases. It is very probab
 
 The library is dependency-free, it only uses built-in modules from the [Python Standard Library](https://docs.python.org/3/library/).
 
-### Using pip
+**compclasses** is published as a Python package on [pypi](https://pypi.org/), and it can be installed with pip, ideally by using a virtual environment (suggested option), or directly from source using git, or with a local clone:
 
-**compclasses** is published as a Python package on [pypi](https://pypi.org/), and it can be installed with pip, ideally by using a virtual environment.
+=== "pip (pypi)"
 
-From a terminal it is possible to install it with:
+    ```bash
+    python -m pip install compclasses
+    ```
 
-```bash
-python -m pip install compclasses
-```
+=== "source/git"
 
-### Using git
+    ```bash
+    python -m pip install git+https://github.com/FBruzzesi/compclasses.git
+    ```
 
-It is possible to install the library "directly" from GitHub by:
+=== "local clone"
 
-- Cloning the project repo using `git`
-- Moving to the folder
-- Installing the library using `pip`
-
-```bash
-git clone https://github.com/FBruzzesi/compclasses.git
-cd compclasses
-python -m pip install .
-```
+    ```bash
+    git clone https://github.com/FBruzzesi/compclasses.git
+    cd compclasses
+    python -m pip install .
+    ```
 
 ## License
 
