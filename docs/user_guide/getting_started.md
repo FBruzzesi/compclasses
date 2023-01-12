@@ -57,7 +57,7 @@ len(baz)  # -> TypeError: object of type 'Baz' has no len()
 
 ## Compclass decorator
 
-Using the `compclass` decorator we can *forward* the methods that we want to the `Baz` class from its attributes at definition time:
+Using the [compclass](https://fbruzzesi.github.io/compclasses/api/compclass) decorator we can *forward* the methods that we want to the `Baz` class from its attributes at definition time:
 
 ```python title="Using compclass"
 from compclasses import compclass

@@ -164,7 +164,7 @@ Any feedback, improvement/enhancement or issue is welcome in the [issue page](ht
 
 ## Contributing
 
-Please refer to the [contributing guidelines](https://fbruzzesi.github.io/compclasses/CONTRIBUTING) in the documentation site.
+Please refer to the [contributing guidelines](https://fbruzzesi.github.io/compclasses/contribute) in the documentation site.
 
 ## Inspiration
 

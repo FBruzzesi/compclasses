@@ -4,9 +4,10 @@
 
 Like *dataclasses*, but for composition.
 
-As the Gang of Four (probably) said:
 
-> favor object composition over class inheritance.
+!!! quote "Favor object composition over class inheritance"
+
+    As the Gang of Four (probably) said.
 
 However when we use composition in Python, we cannot access methods directly from the composed class, and we either re-define these methods from scratch, or access them using chaining.
 

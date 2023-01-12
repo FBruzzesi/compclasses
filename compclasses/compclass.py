@@ -256,10 +256,10 @@ def property_from_delegator(
     log_func: Callable[[str], None] = logger.info,
 ):
     """
-    Define a property `{prefix}{attr_name}{suffix}` in the `orig_cls` scope to access as
+    Defines a property `{prefix}{attr_name}{suffix}` in the `orig_cls` scope to access as
     `self.<{prefix}{attr_name}{suffix}>` instead of `self.<delegatee_cls>.<attr_name>`.
 
-    Remark that we cannot check here if the delegatee has the passed attribute,
+    Remark that we don't check here if the delegatee has the passed attribute,
     as delegatee_cls_name only represent the cls attribute name to which the
     delegatee is assigned.
 
