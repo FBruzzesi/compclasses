@@ -2,6 +2,10 @@
 
 # Compclasses
 
+![](https://img.shields.io/github/license/FBruzzesi/compclasses)
+<img src ="docs/img/interrogate-shield.svg">
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
 Like *dataclasses*, but for composition.
 
 As the Gang of Four (probably) said:
@@ -36,27 +40,31 @@ python -m pip install compclasses
 
 ## Getting Started
 
-Let's suppose to have the following classes:
+Let's suppose we have the following 3 classes, `Foo`, `Bar` and `Baz`:
 
-```python
+- `Foo` and `Bar` are independent from one another;
+- `Baz` get initialized with two class attributes (`_foo`, `_bar`) which are instances of the other two classes.
+
+```python title="Classes definition"
 class Foo:
     """Foo class"""
 
     def __init__(self, value: int):
         """foo init"""
-        self.value = value
+        self._value = value
 
-    def get_foo(self):
+    def get_value(self):
         """get value attribute"""
-        return self.value
+        return self._value
 
-    def hello_from_foo(self, name: str) -> str:
+    def hello(self, name: str) -> str:
         """Method with argument"""
         return f"Hello {name}, this is Foo!"
 
 
 class Bar:
     """Bar class"""
+    b: int = 1
 
     def __len__(self) -> int:
         """Custom len method"""
@@ -70,28 +78,30 @@ class Baz:
         self._bar = bar
 ```
 
-Now let's instantiate them and try see how we would access the inner methods/attributes:
+Now let's instantiate them and try see how we would access the "inner" attributes/methods:
 
-```python
+```python title="Naive approach"
 foo = Foo(123)
 bar = Bar()
 
 baz = Baz(foo, bar)
 
-baz._foo.get_foo()  # -> 123
-baz._foo.hello_from_foo("GitHub")  # -> "Hello GitHub, this is Foo!"
+baz._foo.get_value()  # -> 123
+baz._foo.hello("GitHub")  # -> "Hello GitHub, this is Foo!"
 baz._bar.__len__()  # -> 42
 
 len(baz)  # -> TypeError: object of type 'Baz' has no len()
 ```
 
-Using the `compclass` decorator we can *forward* the methods that we want to the `Baz` class at definition time:
+## Compclass decorator
 
-```python
+Using the [compclass](https://fbruzzesi.github.io/compclasses/api/compclass) decorator we can *forward* the methods that we want to the `Baz` class from its attributes at definition time:
+
+```python title="Using compclass"
 from compclasses import compclass
 
 delegates = {
-    "_foo": ( "get_foo", "hello_from_foo"),
+    "_foo": ( "get_value", "hello"),
     "_bar": ("__len__", )
 }
 
@@ -104,8 +114,8 @@ class Baz:
         self._bar = bar
 
 baz = Baz(foo, bar)
-baz.get_foo()  # -> 123
-baz.hello_from_foo("GitHub")  # -> "Hello GitHub, this is Foo!"
+baz.get_value()  # -> 123
+baz.hello("GitHub")  # -> "Hello GitHub, this is Foo!"
 len(baz)  # -> 42
 ```
 
@@ -113,42 +123,17 @@ We can see how now we can access the methods directly.
 
 Remark that in the `delegates` dictionary, we have that:
 
-- the key corresponds to the attribute name in the Baz class
-- the value should be an iterable of string corresponding to methods/attributes present in the class instance associated to the key-attribute.
+- the keys correspond to the attribute names in the `Baz` class;
+- each value should be an iterable of string corresponding to methods/attributes present in the class instance associated to the key-attribute.
 
-### delegatee class
+The `compclass` decorator adds each attribute and method as a [property attribute](http://docs.python.org/3/library/functions.html#property), callable as
+`self.<attr_name>` instead of `self.<delegatee_cls>.<attr_name>`
 
-Instead of using an iterable in the `delegates` dictionary, it is possible to pass a `delegatee` instance as a value.
+## Advanced usage
 
-Such class supports some additional features such as:
+Instead of using an iterable in the `delegates` dictionary, we suggest to use a [delegatee](https://fbruzzesi.github.io/compclasses/api/delegatee) instance as a value.
 
-- class attributes and methods validation.
-- it allows to pass `*` value to pass all non-dunder attributes/methods.
-- adding custom attributes/methods prefix and/or suffix.
-
-Since `get_foo` and `hello_from_foo` are the only two methods of the `Foo` class, the previous example can be rewritten as:
-
-```python
-from compclasses import compclass, delegatee
-
-delegates = {
-    "_foo": delegatee(Foo, attrs=["*"]),
-    "_bar": delegatee(Bar, attrs=["__len__"])
-}
-
-@compclass(delegates=delegates)
-class Baz:
-    """Baz class"""
-
-    def __init__(self, foo: Foo, bar: Bar):
-        self._foo = foo
-        self._bar = bar
-
-baz = Baz(foo, bar)
-baz.get_foo()  # -> 123
-baz.hello_from_foo("GitHub")  # -> "Hello GitHub, this is Foo!"
-len(baz)  # -> 42
-```
+This will yield more flexibility and features when decide to forward class attributes and methods.
 
 Check the dedicated [documentation page](https://fbruzzesi.github.io/compclasses/user_guide/beyond_basics/) to get a better understanding and see more examples on how `delegatee` can be used, its pros and cons.
 
@@ -156,7 +141,7 @@ Check the dedicated [documentation page](https://fbruzzesi.github.io/compclasses
 
 Overall, composition is a more flexible and transparent way to reuse code and design classes in Python. It allows to build classes that are customized to your specific needs, and it promotes code reuse and modularity.
 
-A more detailed explaination is present in the dedicated [documentation page](https://fbruzzesi.github.io/compclasses/composition).
+A more detailed explaination is present in the [documentation page](https://fbruzzesi.github.io/compclasses/composition).
 
 ## Feedbacks
 

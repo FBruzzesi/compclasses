@@ -2,7 +2,7 @@
 
 ## delegatee class
 
-Instead of using an iterable in the `delegates` dictionary, it is possible to pass a [delegatee]((https://fbruzzesi.github.io/compclasses/api/delegatee)) instance as a value.
+Instead of using an iterable in the `delegates` dictionary, it is possible to pass a [delegatee](https://fbruzzesi.github.io/compclasses/api/delegatee) instance as a value.
 
 This will yield more flexibility and features when decide to forward class attributes and methods.
 

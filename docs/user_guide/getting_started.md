@@ -93,7 +93,7 @@ The `compclass` decorator adds each attribute and method as a [property attribut
 
 ## Next Steps
 
-Instead of using an iterable in the `delegates` dictionary, we suggest to use a `delegatee` instance as a value.
+Instead of using an iterable in the `delegates` dictionary, we suggest to use a [delegatee](https://fbruzzesi.github.io/compclasses/api/delegatee) instance as a value.
 
 This will yield more flexibility and features when decide to forward class attributes and methods.
 
