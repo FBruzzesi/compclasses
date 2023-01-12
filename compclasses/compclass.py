@@ -37,7 +37,8 @@ class delegatee:
     This class provides the following features:
 
     - It allows to validate the delegatee class attributes/methods
-    - It supports the "*" argument in attrs param, which automatically detects all non-dunder methods/attributes
+    - It supports the "*" argument in attrs param, which automatically detects
+        all non-dunder methods/attributes
     - It enables adding prefix and/or suffix to non-dunder methods/attributes
 
     Arguments:
@@ -50,14 +51,18 @@ class delegatee:
         suffix: injected method suffix, unused with dunder methods
         validate: whether or not to validate if delegatee_cls has all the attrs.
 
-            Remark that validate function includes methods and class attributes only,
-            it doesn't detect instance attributes, therefore if instance attributes are passed
-            and validate param is True then the check will fail.
+            Remark that validate function includes methods and class attributes
+            only, it doesn't detect instance attributes, therefore if instance
+            attributes are passed and validate param is True then the check will
+            fail.
 
     Methods:
-        - _parse_attrs: parses the original attrs sequence, splitting between dunder and class methods.
-        - _is_dunder_method: assess whether or not an attribute is a dunder method.
-        - _validate_delegatee_methods: checks if delegatee_cls has all attributes/methods in attrs
+        - _parse_attrs: parses the original attrs sequence, splitting between
+            dunder and class methods.
+        - _is_dunder_method: assess whether or not an attribute is a dunder
+            method.
+        - _validate_delegatee_methods: checks if delegatee_cls has all
+            attributes/methods in attrs
     """
 
     def __init__(
@@ -117,7 +122,8 @@ class delegatee:
 
         cls_attrs_methods = tuple(delegatee_cls.__dict__.keys())
         cls_attrs_methods = tuple([a[0] for a in inspect.getmembers(delegatee_cls)])
-        # Remark: includes methods and class attributes only, it doesn't detect instance attributes!!!
+        # Remark: includes methods and class attributes only
+        #     it doesn't detect instance attributes!!!
 
         for attr_name in attrs:
             if attr_name not in cls_attrs_methods:
@@ -136,10 +142,13 @@ def compclass(
     Adds class attributes/methods from `delegates` to `cls` object as class properties.
 
     `delegates` dictionary consists of key-value pair, of the following form.
-    The key corresponds to the name of the cls attribute to which the delegate instance is assigned to.
-    The value should be an iterable or `delegatee` instance with the name of the attributes/methods to forward.
+    The key corresponds to the name of the cls attribute to which the delegate
+    instance is assigned to.
+    The value should be an iterable or `delegatee` instance with the name of the
+    attributes/methods to forward.
 
-    `verbose` defines the level of verbosity when setting-calling-deleting those forwarded methods.
+    `verbose` defines the level of verbosity when setting-calling-deleting those
+    forwarded methods.
 
     The function can be used as a class decorator:
 
@@ -167,10 +176,13 @@ def compclass(
         cls: class to which attributes/methods should be forwarded to.
         delegates: key-value pair of delegates.
 
-            - key: name of the cls attribute to which the delegate instance is assigned to.
-            - value: must be either a sequence of method names or a delegatee instance.
+            - key: name of the cls attribute to which the delegate instance is
+                assigned to.
+            - value: must be either a sequence of method names or a delegatee
+                instance.
 
-        verbose: defines the level of verbosity (0-4) when setting-calling-deleting forwarded methods.
+        verbose: defines the level of verbosity (0-4) when setting-calling-deleting
+            forwarded methods.
 
             - 0: SILENT
             - 1: SET
@@ -206,11 +218,14 @@ def compclass(
                 if isinstance(
                     delegatee_instance, delegatee
                 ) and not delegatee._is_dunder_method(attr_name):
-                    pfx, sfx = delegatee_instance._prefix, delegatee_instance._suffix
+                    pfx, sfx = (
+                        delegatee_instance._prefix,
+                        delegatee_instance._suffix,
+                    )
                 else:
                     pfx, sfx = "", ""
 
-                _property_from_delegator(
+                property_from_delegator(
                     orig_cls=cls,
                     delegatee_cls_name=delegatee_name,
                     attr_name=attr_name,
@@ -231,7 +246,7 @@ def compclass(
     return wrap(cls)
 
 
-def _property_from_delegator(
+def property_from_delegator(
     orig_cls: Type,
     delegatee_cls_name: str,
     attr_name: str,
@@ -244,8 +259,9 @@ def _property_from_delegator(
     Define a property `{prefix}{attr_name}{suffix}` in the `orig_cls` scope to access as
     `self.<{prefix}{attr_name}{suffix}>` instead of `self.<delegatee_cls>.<attr_name>`.
 
-    Remark that we cannot check here if the delegatee has the passed attribute, as
-    delegatee_cls_name only represent the cls attribute name to which the delegatee is assigned.
+    Remark that we cannot check here if the delegatee has the passed attribute,
+    as delegatee_cls_name only represent the cls attribute name to which the
+    delegatee is assigned.
 
     Arguments:
         orig_cls: original class
@@ -253,7 +269,15 @@ def _property_from_delegator(
         attr_name: attribute/method of delegatee_cls which we want to forward
         prefix: prefix of new method
         suffix: suffix of new method
-        verbose: verbosity level
+        verbose: defines the level of verbosity (0-4) when setting-calling-deleting
+            forwarded methods.
+
+            - 0: SILENT
+            - 1: SET
+            - 2: GET
+            - 3: DEL
+            - 4: ALL
+
         log_func: function used to log, unused if verbose = 0
     """
 
@@ -286,8 +310,9 @@ def _property_from_delegator(
         function to be used for del'ing an attribute
 
         Remark:
-            This should never work when using delegatee(..., validate=True) as only
-            cls methods and cls attributes can be detected, but cannot be deleted from an instance
+            This should never work when using delegatee(..., validate=True) as
+            only cls methods and cls attributes can be detected, but cannot be
+            deleted from an instance
         """
 
         if verbose in (3, 4):

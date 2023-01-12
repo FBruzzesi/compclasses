@@ -2,7 +2,7 @@ from typing import Tuple
 
 import pytest
 
-from compclasses.compclass import _property_from_delegator
+from compclasses.compclass import property_from_delegator
 
 
 @pytest.mark.parametrize(
@@ -34,7 +34,7 @@ def test_property_from_delegator(
 
     assert not hasattr(Baz, new_attr_name)
 
-    _property_from_delegator(
+    property_from_delegator(
         orig_cls=Baz,
         delegatee_cls_name=delegatee_cls_name,
         attr_name=attr_name,
@@ -65,7 +65,7 @@ def test_property_from_delegator_logs(
 
     Baz = baz_cls
 
-    _property_from_delegator(
+    property_from_delegator(
         orig_cls=Baz,
         delegatee_cls_name=delegatee_cls_name,
         attr_name=attr_name,
