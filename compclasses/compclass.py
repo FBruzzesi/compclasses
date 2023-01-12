@@ -213,11 +213,11 @@ def compclass(
             # if not isinstance(delegatee_instance.delegatee_cls, type):
             #     setattr(cls, delegatee_name, delegatee_instance.delegatee_cls)
 
+            is_delegatee = isinstance(delegatee_instance, delegatee)
+
             for attr_name in delegatee_instance:
 
-                if isinstance(
-                    delegatee_instance, delegatee
-                ) and not delegatee._is_dunder_method(attr_name):
+                if is_delegatee and not delegatee._is_dunder_method(attr_name):
                     pfx, sfx = (
                         delegatee_instance._prefix,
                         delegatee_instance._suffix,
