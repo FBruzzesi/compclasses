@@ -14,18 +14,16 @@ clean-folders:
 interrogate:
 	interrogate -vv --ignore-nested-functions --ignore-module --ignore-init-method --ignore-private --ignore-magic --ignore-property-decorators --fail-under=80 compclasses tests
 
-format:
-	black --target-version py38 compclasses tests
-
-sort:
+style:
 	isort .
+	black --target-version py38 --line-length 90 --verbose compclasses tests
 
 test:
 	rm -rf .pytest_cache
 	pytest tests -vv
 	rm -rf .pytest_cache
 
-precommit: clean-folders test interrogate sort format clean-folders
+check: clean-folders interrogate style test clean-folders
 
 docs-serve:
 	mkdocs serve
