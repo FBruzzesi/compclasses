@@ -12,16 +12,14 @@ clean-folders:
 	rm -rf .ipynb_checkpoints __pycache__ .pytest_cache */.ipynb_checkpoints */__pycache__ */.pytest_cache
 
 interrogate:
-	interrogate -vv --ignore-nested-functions --ignore-module --ignore-init-method --ignore-private --ignore-magic --ignore-property-decorators --fail-under=80 compclasses tests
+	interrogate -vv --ignore-nested-functions --ignore-module --ignore-init-method --ignore-private --ignore-magic --ignore-property-decorators --fail-under=90 compclasses tests
 
 style:
-	isort .
-	black --target-version py38 --line-length 90 --verbose compclasses tests
+	isort -l 90 compclasses tests
+	black --target-version py38 --line-length 90 compclasses tests
 
 test:
-	rm -rf .pytest_cache
 	pytest tests -vv
-	rm -rf .pytest_cache
 
 check: clean-folders interrogate style test clean-folders
 

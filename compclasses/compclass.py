@@ -3,11 +3,13 @@ import logging
 from enum import IntEnum
 from itertools import filterfalse, tee
 from operator import attrgetter
-from typing import Any, Callable, Dict, Iterable, Optional, Tuple, Type, Union
+from typing import Callable, Dict, Iterable, Optional, Tuple, Type, TypeVar, Union
 
 logging.basicConfig(format="%(message)s", level=logging.INFO)
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
+
+T = TypeVar("T")
 
 
 class Verbose(IntEnum):
@@ -67,7 +69,7 @@ class delegatee:
 
     def __init__(
         self,
-        delegatee_cls: Type[Any],
+        delegatee_cls: Type[T],
         attrs: Iterable[str],
         prefix: str = "",
         suffix: str = "",
@@ -95,7 +97,7 @@ class delegatee:
             yield attr_name
 
     @staticmethod
-    def _parse_attrs(delegatee_cls: Type, attrs: Iterable[str]) -> Tuple[str, ...]:
+    def _parse_attrs(delegatee_cls: Type[T], attrs: Iterable[str]) -> Tuple[str, ...]:
         """Parses the original attrs sequence"""
 
         dunder_methods, cls_methods = partition(delegatee._is_dunder_method, attrs)
@@ -115,9 +117,7 @@ class delegatee:
         return attr_name.startswith("__") and attr_name.endswith("__")
 
     @staticmethod
-    def _validate_delegatee_methods(
-        delegatee_cls: Type[Any], attrs: Iterable[str]
-    ) -> None:
+    def _validate_delegatee_methods(delegatee_cls: Type[T], attrs: Iterable[str]) -> None:
         """Checks if delegatee_cls has all attributes/methods in attrs"""
 
         cls_attrs_methods = tuple(delegatee_cls.__dict__.keys())
@@ -133,11 +133,13 @@ class delegatee:
 
 
 def compclass(
-    cls: Optional[Type[Any]] = None,
+    cls: Optional[Type[T]] = None,
     delegates: Optional[Dict[str, Union[Iterable[str], delegatee]]] = None,
     verbose: Union[Verbose, int] = Verbose.SILENT,
     log_func: Callable[[str], None] = logger.info,
-) -> Union[Callable[[Any], Type[Any]], Type[Any]]:
+) -> Union[
+    Callable[[Type[T], Dict[str, Union[Iterable[str], delegatee]]], Type[T]], Type[T]
+]:
     """
     Adds class attributes/methods from `delegates` to `cls` object as class properties.
 
@@ -202,16 +204,11 @@ def compclass(
         raise ValueError("`delegates` param cannot be `None`")
 
     def wrap(
-        cls: Type[Any],
+        cls: Type[T],
         delegates: Dict[str, Union[Iterable[str], delegatee]] = delegates,
-    ) -> Type[Any]:
+    ) -> Type[T]:
 
         for delegatee_name, delegatee_instance in delegates.items():
-
-            # TODO: Do we even want this feature?
-            # This only make sense if one has the same delegator instance all the time!
-            # if not isinstance(delegatee_instance.delegatee_cls, type):
-            #     setattr(cls, delegatee_name, delegatee_instance.delegatee_cls)
 
             is_delegatee = isinstance(delegatee_instance, delegatee)
 
@@ -247,7 +244,7 @@ def compclass(
 
 
 def property_from_delegator(
-    orig_cls: Type,
+    orig_cls: Type[T],
     delegatee_cls_name: str,
     attr_name: str,
     prefix: str = "",
