@@ -54,9 +54,7 @@ def test_property_from_delegator(
 
 
 @pytest.mark.parametrize("attr_name", ["a"])
-def test_property_from_delegator_logs(
-    caplog, foo_cls, bar_cls, baz_cls, attr_name: str
-):
+def test_property_from_delegator_logs(caplog, foo_cls, bar_cls, baz_cls, attr_name: str):
     """Test for property_from_delegator function"""
 
     foo_obj = foo_cls(value=111)
