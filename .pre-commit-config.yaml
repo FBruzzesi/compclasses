@@ -22,7 +22,7 @@ repos:
     hooks:
       - id: black
         language_version: python3.8
-        args: [--target-version, py38, compclasses, tests]
+        args: [--target-version, py38, --line-length, "90", --verbose, compclasses, tests]
 -   repo: https://github.com/Lucas-C/pre-commit-hooks-bandit
     rev: v1.0.5
     hooks:
@@ -32,7 +32,7 @@ repos:
     rev: 1.5.0
     hooks:
     -   id: interrogate
-        args: [-vv, --ignore-nested-functions, --ignore-module, --ignore-init-method, --ignore-private, --ignore-magic, --ignore-property-decorators, --fail-under=80, compclasses, tests]
+        args: [-vv, --ignore-nested-functions, --ignore-module, --ignore-init-method, --ignore-private, --ignore-magic, --ignore-property-decorators, --fail-under=90, compclasses, tests]
 -   repo: https://github.com/pre-commit/pygrep-hooks
     rev: 7638d0035a770dd67283b7d464e4db3c0043f609
     hooks:
