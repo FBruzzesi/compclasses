@@ -1,9 +1,61 @@
 from contextlib import nullcontext as does_not_raise
-from typing import Sequence, Tuple
+from typing import Iterable, Tuple
+from unittest import mock
 
 import pytest
 
 from compclasses import delegatee
+
+
+@pytest.mark.parametrize(
+    "attrs",
+    [None, [], tuple()],
+)
+def test_init_raise_attrs(foo_cls, attrs: Iterable[str]):
+    """Test for delegatee init with empty attrs param"""
+
+    with pytest.raises(ValueError):
+        delegatee(foo_cls, attrs=attrs)
+
+
+@pytest.mark.parametrize(
+    "null_cls, expected",
+    [
+        (False, 1),
+        (True, 0),
+    ],
+)
+def test_init_parse_attrs_call(foo_cls, null_cls: bool, expected: int):
+    """Tests whether or not _parse_attrs method is called depending on delegatee_cls"""
+
+    delegatee_cls = foo_cls if not null_cls else None
+    attrs: Iterable[str] = ("get_foo", "hello_from_foo")
+
+    with mock.patch.object(delegatee, "_parse_attrs") as parse_attrs_mock:
+        _ = delegatee(delegatee_cls, attrs=attrs)
+        assert parse_attrs_mock.call_count == expected
+
+
+@pytest.mark.parametrize(
+    "null_cls, validate, expected",
+    [
+        (False, True, 1),
+        (False, False, 0),
+        (True, False, 0),
+        (True, False, 0),
+    ],
+)
+def test_init_validate_call(foo_cls, null_cls: bool, validate: bool, expected: int):
+    """
+    Tests whether or not _validate_delegatee_methods method
+    is called depending on delegatee_cls and validate param
+    """
+    delegatee_cls = foo_cls if not null_cls else None
+    attrs: Iterable[str] = ("get_foo", "hello_from_foo")
+
+    with mock.patch.object(delegatee, "_validate_delegatee_methods") as validate_mock:
+        _ = delegatee(delegatee_cls, attrs=attrs, validate=validate)
+        assert validate_mock.call_count == expected
 
 
 @pytest.mark.parametrize(
@@ -32,7 +84,7 @@ def test_is_dunder_method(attr_name: str, expected: bool):
         (("__len__", "get_foo"), ("__len__", "get_foo")),
     ],
 )
-def test_parse_attrs(foo_cls, attrs: Sequence[str], expected: Tuple[str, ...]):
+def test_parse_attrs(foo_cls, attrs: Iterable[str], expected: Tuple[str, ...]):
     """Test for delegatee `_parse_attrs` method"""
     delegatee_cls = foo_cls  # Foo
 
@@ -49,7 +101,7 @@ def test_parse_attrs(foo_cls, attrs: Sequence[str], expected: Tuple[str, ...]):
         (("some_fake_method",), pytest.raises(AttributeError)),
     ],
 )
-def test_validate_delegatee_methods(foo_cls, attrs: Sequence[str], expected):
+def test_validate_delegatee_methods(foo_cls, attrs: Iterable[str], expected):
     """Test for delegatee `_validate_delegatee_methods` method"""
     delegatee_cls = foo_cls  # Foo
 
