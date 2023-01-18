@@ -76,7 +76,7 @@ class delegatee:
         validate: bool = True,
     ):
 
-        if attrs is None:
+        if not attrs:  # empty iterable such as list(), tuple(), None, etc...
             raise ValueError("attrs parameter cannot be None")
 
         self.delegatee_cls = delegatee_cls
@@ -120,7 +120,7 @@ class delegatee:
     def _validate_delegatee_methods(delegatee_cls: Type[T], attrs: Iterable[str]) -> None:
         """Checks if delegatee_cls has all attributes/methods in attrs"""
 
-        cls_attrs_methods = tuple(delegatee_cls.__dict__.keys())
+        # cls_attrs_methods = tuple(delegatee_cls.__dict__.keys())
         cls_attrs_methods = tuple([a[0] for a in inspect.getmembers(delegatee_cls)])
         # Remark: includes methods and class attributes only
         #     it doesn't detect instance attributes!!!
@@ -235,11 +235,10 @@ def compclass(
         return cls
 
     if cls is None:
-        # We're called with parens.
+        # Called with parens: @compclass(delegates=...)
         return wrap
 
-    # We're called as @compclass without parens.
-    # This case should never happen as delegates param cannot be None.
+    # Called directly on class C = compclass(C, delegates)
     return wrap(cls)
 
 
