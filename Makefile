@@ -22,7 +22,11 @@ style:
 test:
 	pytest tests -vv
 
-check: clean-folders interrogate style test clean-folders
+test-coverage:
+	coverage run -m pytest
+	coverage report -m
+
+check: interrogate style test-coverage clean-folders
 
 docs-serve:
 	mkdocs serve
