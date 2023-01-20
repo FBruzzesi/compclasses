@@ -16,7 +16,7 @@ interrogate:
 	interrogate -vv --ignore-nested-functions --ignore-module --ignore-init-method --ignore-private --ignore-magic --ignore-property-decorators --fail-under=90 compclasses tests
 
 style:
-	isort -l 90 compclasses tests
+	isort --profile black -l 90 compclasses tests
 	black --target-version py38 --line-length 90 compclasses tests
 
 test:
