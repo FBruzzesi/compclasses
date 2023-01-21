@@ -582,7 +582,7 @@ delegatee is assigned.</p>
   <tbody>
       <tr>
         <td><code>orig_cls</code></td>
-        <td><code>Type</code></td>
+        <td><code>Type[~T]</code></td>
         <td><p>original class</p></td>
         <td><em>required</em></td>
       </tr>
@@ -635,7 +635,7 @@ forwarded methods.</p>
         <details class="quote">
           <summary>Source code in <code>compclasses/compclass.py</code></summary>
           <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">def</span> <span class="nf">property_from_delegator</span><span class="p">(</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">orig_cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">,</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">orig_cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">T</span><span class="p">],</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">delegatee_cls_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">attr_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
