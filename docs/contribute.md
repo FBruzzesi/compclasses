@@ -11,7 +11,8 @@ We welcome contributions to the library! If you have a bug fix or new feature th
 5. Commit your changes and push the branch to your fork.
 6. Open a pull request on the main repository.
 
-Code of Conduct
+## Code of Conduct
+
 All contributors are expected to follow the project's code of conduct, which is based on the Contributor Covenant.
 
 ### Reporting Bugs
