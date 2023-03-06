@@ -1,3 +1,51 @@
 [build-system]
 requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "compclasses"
+version = "0.3.0"
+description = "Prefer composition over inheritance"
+
+license = {file = "LICENSE"}
+readme = "README.md"
+requires-python = ">=3.8"
+authors = [{name = "Francesco Bruzzesi"}]
+
+[project.urls]
+documentation = "https://fbruzzesi.github.io/compclasses/"
+repository = "https://github.com/fbruzzesi/compclasses"
+issue-tracker = "https://github.com/fbruzzesi/compclasses/issues"
+
+
+[project.optional-dependencies]
+dev = [
+    "black==22.12.0",
+    "interrogate==1.5.0",
+    "isort==5.10.1",
+    "pre-commit==2.21.0",
+    "pytest==7.2.0",
+]
+
+docs = [
+    "mkdocs==1.4.2",
+    "mkdocs-material==9.0.0",
+    "mkdocstrings==0.19.1",
+]
+
+[tool.setuptools.packages.find]
+include = ["compclasses*"]
+exclude = ["docs", "tests", "data", "docker", "results", "notebooks", "kubernetes"]
+
+
+[tool.black]
+line-length = 90
+target_version = ['py38']
+
+[tool.isort]
+py_version = 310
+profile = "black"
+line_length = 90
+
+[tool.ruff]
+line-length = 90

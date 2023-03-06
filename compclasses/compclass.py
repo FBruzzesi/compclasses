@@ -133,7 +133,7 @@ class delegatee:
 
 
 def compclass(
-    cls: Optional[Type[T]] = None,
+    _cls: Optional[Type[T]] = None,
     delegates: Optional[Dict[str, Union[Iterable[str], delegatee]]] = None,
     verbose: Union[Verbose, int] = Verbose.SILENT,
     log_func: Callable[[str], None] = logger.info,
@@ -204,8 +204,8 @@ def compclass(
         raise ValueError("`delegates` param cannot be `None`")
 
     def wrap(
-        cls: Type[T],
-        delegates: Dict[str, Union[Iterable[str], delegatee]] = delegates,
+        _cls: Type[T],
+        delegates: Dict[str, Union[Iterable[str], delegatee]] = delegates,  # type: ignore
     ) -> Type[T]:
 
         for delegatee_name, delegatee_instance in delegates.items():
@@ -216,14 +216,14 @@ def compclass(
 
                 if is_delegatee and not delegatee._is_dunder_method(attr_name):
                     pfx, sfx = (
-                        delegatee_instance._prefix,
-                        delegatee_instance._suffix,
+                        delegatee_instance._prefix,  # type: ignore
+                        delegatee_instance._suffix,  # type: ignore
                     )
                 else:
                     pfx, sfx = "", ""
 
                 property_from_delegator(
-                    orig_cls=cls,
+                    orig_cls=_cls,
                     delegatee_cls_name=delegatee_name,
                     attr_name=attr_name,
                     prefix=pfx,
@@ -232,14 +232,14 @@ def compclass(
                     log_func=log_func,
                 )
 
-        return cls
+        return _cls
 
-    if cls is None:
+    if _cls is None:
         # Called with parens: @compclass(delegates=...)
         return wrap
 
     # Called directly on class C = compclass(C, delegates)
-    return wrap(cls)
+    return wrap(_cls)
 
 
 def property_from_delegator(
