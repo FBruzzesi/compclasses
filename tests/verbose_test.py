@@ -1,6 +1,6 @@
 import pytest
 
-from compclasses.compclass import Verbose
+from compclasses._utils import Verbose
 
 
 @pytest.mark.parametrize(

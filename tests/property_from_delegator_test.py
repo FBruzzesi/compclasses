@@ -2,7 +2,7 @@ from typing import Tuple
 
 import pytest
 
-from compclasses.compclass import property_from_delegator
+from compclasses._utils import property_from_delegator
 
 
 @pytest.mark.parametrize(
@@ -34,13 +34,14 @@ def test_property_from_delegator(
 
     assert not hasattr(Baz, new_attr_name)
 
-    property_from_delegator(
-        orig_cls=Baz,
+    _name = f"{prefix}{attr_name}{suffix}"
+    _property = property_from_delegator(
         delegatee_cls_name=delegatee_cls_name,
         attr_name=attr_name,
         prefix=prefix,
         suffix=suffix,
     )
+    setattr(Baz, _name, _property)
 
     baz_obj = Baz(foo_obj, bar_obj)
 
@@ -63,12 +64,14 @@ def test_property_from_delegator_logs(caplog, foo_cls, bar_cls, baz_cls, attr_na
 
     Baz = baz_cls
 
-    property_from_delegator(
-        orig_cls=Baz,
+    _name = f"{attr_name}"
+    _property = property_from_delegator(
         delegatee_cls_name=delegatee_cls_name,
         attr_name=attr_name,
         verbose=4,
     )
+    setattr(Baz, _name, _property)
+
     assert f"Setting {attr_name} from {delegatee_cls_name}.{attr_name}" in caplog.text
 
     baz_obj = Baz(foo_obj, bar_obj)

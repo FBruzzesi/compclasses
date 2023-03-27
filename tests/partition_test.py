@@ -2,7 +2,7 @@ from typing import Any, Iterable, Tuple
 
 import pytest
 
-from compclasses.compclass import partition
+from compclasses._delegatee import partition
 
 
 def is_even(x: int) -> bool:

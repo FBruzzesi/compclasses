@@ -78,9 +78,9 @@ def test_is_dunder_method(attr_name: str, expected: bool):
 @pytest.mark.parametrize(
     "attrs, expected",
     [
-        (("*",), ("a", "get_foo", "hello_from_foo")),
+        (("*",), ("a", "_foo", "get_foo", "hello_from_foo")),
         (("__len__",), ("__len__",)),
-        (("__len__", "*"), ("__len__", "a", "get_foo", "hello_from_foo")),
+        (("__len__", "*"), ("__len__", "a", "_foo", "get_foo", "hello_from_foo")),
         (("__len__", "get_foo"), ("__len__", "get_foo")),
     ],
 )
