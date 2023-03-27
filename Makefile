@@ -20,7 +20,7 @@ style:
 	black --target-version py38 --line-length 90 compclasses tests
 
 test:
-	pytest tests -vv
+	pytest tests -n auto
 
 test-coverage:
 	coverage run -m pytest
