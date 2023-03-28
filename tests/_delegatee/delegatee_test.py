@@ -9,9 +9,9 @@ from compclasses import delegatee
 
 @pytest.mark.parametrize(
     "attrs",
-    [None, [], tuple()],
+    [None, list(), tuple()],
 )
-def test_init_raise_attrs(foo_cls, attrs: Iterable[str]):
+def test_empty_attrs(foo_cls, attrs: Iterable[str]):
     """Test for delegatee init with empty attrs param"""
 
     with pytest.raises(ValueError):
@@ -78,10 +78,10 @@ def test_is_dunder_method(attr_name: str, expected: bool):
 @pytest.mark.parametrize(
     "attrs, expected",
     [
-        (("*",), ("a", "_foo", "get_foo", "hello_from_foo")),
         (("__len__",), ("__len__",)),
-        (("__len__", "*"), ("__len__", "a", "_foo", "get_foo", "hello_from_foo")),
         (("__len__", "get_foo"), ("__len__", "get_foo")),
+        (("__len__", "*"), ("__len__", "a", "_foo", "get_foo", "hello_from_foo")),
+        (("*",), ("a", "_foo", "get_foo", "hello_from_foo")),
     ],
 )
 def test_parse_attrs(foo_cls, attrs: Iterable[str], expected: Tuple[str, ...]):
@@ -92,7 +92,7 @@ def test_parse_attrs(foo_cls, attrs: Iterable[str], expected: Tuple[str, ...]):
 
 
 @pytest.mark.parametrize(
-    "attrs, expected",
+    "attrs, context",
     [
         (("__len__",), does_not_raise()),
         (("__len__", "a", "get_foo", "hello_from_foo"), does_not_raise()),
@@ -101,9 +101,16 @@ def test_parse_attrs(foo_cls, attrs: Iterable[str], expected: Tuple[str, ...]):
         (("some_fake_method",), pytest.raises(AttributeError)),
     ],
 )
-def test_validate_delegatee_methods(foo_cls, attrs: Iterable[str], expected):
+def test_validate_delegatee_methods(foo_cls, attrs: Iterable[str], context):
     """Test for delegatee `_validate_delegatee_methods` method"""
     delegatee_cls = foo_cls  # Foo
 
-    with expected:
+    with context:
         assert delegatee._validate_delegatee_methods(delegatee_cls, attrs) is None
+
+
+def test_iter(foo_cls):
+    """Test __iter__ method"""
+    attrs = ("__len__", "a", "get_foo", "hello_from_foo")
+    d = delegatee(foo_cls, attrs=attrs)
+    assert list(d) == list(attrs)
