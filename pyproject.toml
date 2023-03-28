@@ -35,6 +35,8 @@ docs = [
     "mkdocstrings==0.19.1",
 ]
 
+all = ["compclasses[dev,docs]"]
+
 [tool.setuptools.packages.find]
 include = ["compclasses*"]
 exclude = ["docs", "tests", "data", "docker", "results", "notebooks", "kubernetes"]

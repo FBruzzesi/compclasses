@@ -23,10 +23,11 @@ test:
 	pytest tests -n auto
 
 test-coverage:
+	rm -rf .coverage
 	coverage run -m pytest
 	coverage report -m
 
-check: interrogate style test-coverage clean-folders
+check: interrogate style test clean-folders
 
 docs-serve:
 	mkdocs serve
