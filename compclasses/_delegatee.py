@@ -21,18 +21,19 @@ def partition(
         A tuple of two tuples. The first tuple contains all items for which pred(item) is
             True, and the second tuple contains all items for which pred(item) is False.
     """
+
     t1, t2 = tee(iterable)
     return tuple(filter(pred, t1)), tuple(filterfalse(pred, t2))
 
 
 class delegatee:
     """
-    Base delegatee class, used in place of an iterable when defining delegates.
+    Delegatee class, used in place of an iterable when defining delegates.
 
     This class provides the following features:
 
     - It allows to validate the delegatee class attributes/methods.
-    - It supports the "*" argument in attrs param, which automatically detects all
+    - It supports the "*" argument in attrs parameter, which automatically detects all
         non-dunder methods of the delegatee class.
     - It enables adding prefix and/or suffix to non-dunder methods.
 

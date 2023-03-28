@@ -1,7 +1,7 @@
 from typing import Callable, Dict, Iterable, Optional, Type, TypeVar, Union
 
+from compclasses._core import generate_properties, logger
 from compclasses._delegatee import delegatee
-from compclasses._utils import Verbose, generate_properties, logger
 
 T = TypeVar("T")
 
@@ -9,7 +9,7 @@ T = TypeVar("T")
 def compclass(
     _cls: Optional[Type[T]] = None,
     delegates: Optional[Dict[str, Union[Iterable[str], delegatee]]] = None,
-    verbose: Union[Verbose, int] = Verbose.SILENT,
+    verbose: Optional[bool] = True,
     log_func: Callable[[str], None] = logger.info,
 ) -> Union[
     Callable[[Type[T], Dict[str, Union[Iterable[str], delegatee]]], Type[T]], Type[T]
