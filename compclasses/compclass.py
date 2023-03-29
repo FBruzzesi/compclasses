@@ -12,19 +12,31 @@ def compclass(
     verbose: Optional[bool] = True,
     log_func: Callable[[str], None] = logger.info,
 ) -> Union[
-    Callable[[Type[T], Dict[str, Union[Iterable[str], delegatee]]], Type[T]], Type[T]
+    Type[T], Callable[[Type[T], Dict[str, Union[Iterable[str], delegatee]]], Type[T]]
 ]:
     """
-    Adds class attributes/methods from `delegates` to `cls` object as class properties.
+    Decorator that adds class attributes/methods from `delegates` to `_cls` object as
+    class properties.
 
-    `delegates` dictionary consists of key-value pair, of the following form.
-    The key corresponds to the name of the cls attribute to which the delegate
-    instance is assigned to.
-    The value should be an iterable or `delegatee` instance with the name of the
-    attributes/methods to forward.
+    Arguments:
+        _cls: class to which attributes/methods should be forwarded to.
+        delegates: key-value pair of delegates.
 
-    `verbose` defines the level of verbosity when setting-calling-deleting those
-    forwarded methods.
+            - key: name of the class/instance attribute to which the delegate instance is
+                assigned to.
+            - value: must be either a sequence/iterable of method names or a `delegatee`
+                instance. They represent the attributes/methods to forward.
+
+        verbose: defines the level of verbosity when setting those forwarded methods.
+        log_func: function to use for logging, if verbose is set to True.
+
+    Raises:
+        ValueError: `delegates` param cannot be `None`
+
+    Returns:
+        Type[T]: class with added methods from delegates
+
+    Usage:
 
     The function can be used as a class decorator:
 
@@ -47,32 +59,6 @@ def compclass(
     bar.a  # -> 1 (instead of bar._foo.a)
     len(bar)  # -> 42 (instead of len(bar._foo))
     ```
-
-    Arguments:
-        cls: class to which attributes/methods should be forwarded to.
-        delegates: key-value pair of delegates.
-
-            - key: name of the cls attribute to which the delegate instance is
-                assigned to.
-            - value: must be either a sequence of method names or a delegatee
-                instance.
-
-        verbose: defines the level of verbosity (0-4) when setting-calling-deleting
-            forwarded methods.
-
-            - 0: SILENT
-            - 1: SET
-            - 2: GET
-            - 3: DEL
-            - 4: ALL
-
-        log_func: function used to log, unused if verbose = 0
-
-    Raises:
-        ValueError: `delegates` param cannot be `None`
-
-    Returns:
-        Type[Any]: class with added methods from delegates
     """
     if delegates is None:
         raise ValueError("`delegates` param cannot be `None`")

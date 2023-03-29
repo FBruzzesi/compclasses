@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 from abc import ABCMeta
-from typing import Callable, Dict, Iterable, Optional, Union
+from typing import Any, Callable, Dict, Iterable, Optional, Tuple, Type, Union
 
 from compclasses._core import generate_properties
 from compclasses._delegatee import delegatee
@@ -8,30 +10,32 @@ from compclasses._logging import logger
 
 class CompclassMeta(ABCMeta):
     """
-    Metaclass for compclass - adds class attributes/methods from `delegates` to `cls`
-    object as class properties.
+    Metaclass that adds class attributes/methods from `delegates` to `clsname` object as
+    class properties.
 
     Arguments:
-        `delegates`: dictionary of key-value pair, of the following form:
-            - The key corresponds to the name of the cls attribute to which the delegate
-            instance is assigned to.
-            - The value should be an iterable or `delegatee` instance with the name of
-                the attributes/methods to forward.
-        `verbose` defines the level of verbosity when setting those forwarded methods.
-        `log_func`: function to use for logging, if verbose is set to True.
+        delegates: key-value pair of delegates.
+
+            - key: name of the class/instance attribute to which the delegate instance is
+                assigned to.
+            - value: must be either a sequence/iterable of method names or a `delegatee`
+                instance. They represent the attributes/methods to forward.
+
+        verbose: defines the level of verbosity when setting those forwarded methods.
+        log_func: function to use for logging, if verbose is set to True.
     """
 
     def __new__(
-        self,
-        _cls,
-        bases,
-        attrs,
+        cls: Type,
+        clsname: str,
+        bases: Tuple[Type, ...],
+        attrs: Dict[str, Any],
         delegates: Dict[str, Union[Iterable[str], delegatee]],
         verbose: Optional[bool] = True,
         log_func: Callable[[str], None] = logger.info,
-    ):
+    ) -> CompclassMeta:
 
         for _name, _to_inject in generate_properties(delegates, verbose, log_func):
             attrs[_name] = _to_inject
 
-        return type(_cls, bases, attrs)
+        return super().__new__(cls, clsname, bases, attrs)
