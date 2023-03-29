@@ -3,6 +3,8 @@ import re
 from itertools import filterfalse, tee
 from typing import Callable, Iterable, Optional, Tuple, Type, TypeVar
 
+from compclasses._logging import logger
+
 T = TypeVar("T")
 
 
@@ -65,7 +67,7 @@ class delegatee:
 
     def __init__(
         self,
-        delegatee_cls: Type[T],
+        delegatee_cls: Type,
         attrs: Iterable[str],
         prefix: Optional[str] = "",
         suffix: Optional[str] = "",
@@ -93,7 +95,7 @@ class delegatee:
             yield attr_name
 
     @staticmethod
-    def _parse_attrs(delegatee_cls: Type[T], attrs: Iterable[str]) -> Tuple[str, ...]:
+    def _parse_attrs(delegatee_cls: Type, attrs: Iterable[str]) -> Tuple[str, ...]:
         """
         Parses the original attrs sequence:
 
@@ -112,8 +114,15 @@ class delegatee:
                 for attr_name in delegatee_cls.__dict__.keys()
                 if not delegatee._is_dunder_method(attr_name)
             )
-            co_code = inspect.getsource(delegatee_cls.__init__)
-            init_attrs = tuple(pattern.findall(co_code))
+            try:
+                co_code = inspect.getsource(delegatee_cls.__init__)
+                init_attrs = tuple(pattern.findall(co_code))
+            except Exception as e:
+                logger.info(
+                    f"Unable to parse __init__ method of {delegatee_cls} due to the \
+                        following reason: {e}"
+                )
+                init_attrs = tuple()
 
             all_methods = methods + init_attrs
         else:
@@ -129,7 +138,7 @@ class delegatee:
         return attr_name.startswith("__") and attr_name.endswith("__")
 
     @staticmethod
-    def _validate_delegatee_methods(delegatee_cls: Type[T], attrs: Iterable[str]) -> None:
+    def _validate_delegatee_methods(delegatee_cls: Type, attrs: Iterable[str]) -> None:
         """
         Checks if delegatee_cls has all attributes and methods listed in attrs
 
@@ -144,9 +153,17 @@ class delegatee:
 
         cls_methods = tuple([a[0] for a in inspect.getmembers(delegatee_cls)])
 
-        co_code = inspect.getsource(delegatee_cls.__init__)
-        pattern = re.compile(r"self\.(\w+)")
-        init_attrs = tuple(pattern.findall(co_code))
+        try:
+            co_code = inspect.getsource(delegatee_cls.__init__)
+            pattern = re.compile(r"self\.(\w+)")
+            init_attrs = tuple(pattern.findall(co_code))
+
+        except Exception as e:
+            logger.info(
+                f"Unable to parse __init__ method of {delegatee_cls} due to the \
+                    following reason: {e}"
+            )
+            init_attrs = tuple()
 
         all_methods = cls_methods + init_attrs
         for attr_name in attrs:
