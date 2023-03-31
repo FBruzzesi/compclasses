@@ -81,7 +81,7 @@ class Bar:
         return 42
 ```
 
-<!-- Now instead of using a list of attribute/methods name, let's define delegates using `delegatee` class, with few extra params:
+Now instead of using a list of attribute/methods name, let's define delegates using `delegatee` class, with few extra params:
 
 ```python title="delegatee class"
 from compclasses import compclass, delegatee
@@ -102,7 +102,7 @@ delegates = {
 
 @compclass(
     delegates=delegates,
-    verbose=4  # verbisity level to use
+    verbose=True  # verbisity level to use
 )
 class Baz:
     """Baz class"""
@@ -110,42 +110,21 @@ class Baz:
     def __init__(self, foo: Foo, bar: Bar):
         self._foo = foo
         self._bar = bar
+
+# Unable to parse __init__ method of <class '__main__.Bar'> due to the following reason: module, class, method, function, traceback, frame, or code object was expected, got wrapper_descriptor
+# Setting get_value_from_foo from _foo.get_value
+# Setting hello_from_foo from _foo.hello
+# Setting _value_from_foo from _foo._value
+# Setting __len__ from _bar.__len__
+# Setting bar_b from _bar.b
 ```
->Setting get_value_from_foo from _foo.get_value
->
->Setting hello_from_foo from _foo.hello
->
->Setting \_\_len\_\_ from _bar.\_\_len\_\_
->
->Setting bar_b from _bar.b
 
 Let's see what is happening here:
 
-- Setting `verbose=4` leads to logging which attributes/methods are set in the `Baz` class and from which method.
-- Passing `attrs=("*", )` forwards all non-dunder methods of `Foo` to `Baz`, namely `get_value` and `hello`.
-- Since we are using a suffix, the new methods in `Baz` are called `get_value_from_foo` and `hello_from_foo`.
+- `Bar`'s `delegatee` have `validate=True` param, therefore checks `__len__` and `b` are presents. While doing so it fails to find an `__init__` method (this is an implementation detail of the class `object` implemented in _C_). Notice that however this does not raise an error. It would have if any of `__len__` or `b` were not found.
+- Passing `attrs=("*", )` for `Foo` allows to forward all non-dunder methods of `Foo` to `Baz`, namely `get_value`, `hello` and `_value` (this last one is found in `Foo.__init__`).
+- Since we are using a suffix, the new methods in `Baz` are called `get_value_from_foo`, `hello_from_foo` and `_value_from_foo`.
 - Similarly we use a prefix in `Bar` delegatee, hence `b` becomes `bar_b`, yet `__len__` is forwarded as-is.
-
-```python title="calling methods"
-foo = Foo(123)
-bar = Bar()
-baz = Baz(foo, bar)
-
-baz.get_value_from_foo()  # 123
-baz.hello_from_foo("Github")  # 'Hello Github, this is Foo!
-len(baz)  # 42
-baz.bar_b  # 1
-```
-
->Calling get_value_from_foo from _foo.get_value
->
->Calling hello_from_foo from _foo.hello
->
->Calling __len__ from _bar.__len__
->
->Calling bar_b from _bar.b
-
-As expected, we can call the methods directly as we named them. Since `verbose=4` then also each call is logged.
 
 Let's now see what happens if a class attribute or an undefined method is passed in the `attrs` list:
 
@@ -153,15 +132,8 @@ Let's now see what happens if a class attribute or an undefined method is passed
 delegatee(delegatee_cls=Foo, attrs=("_value",))
 delegatee(delegatee_cls=Foo, attrs=("some_fake_method",))
 ```
+> (...) AttributeError: '<class '__main__.Foo'>' has no attribute nor method 'some_fake_method'
 
-> (...) AttributeError: '<class '__main__.Foo'>' has no attribute/method '_value'
->
-> (...) AttributeError: '<class '__main__.Foo'>' has no attribute/method 'some_fake_method'
-
-In the first case, we cannot detect `_value` attribute, since this doesn't exist at `Foo` definition time, but only when an object is instantiated.
-For the same reason, these attributes are not picked up when setting `attrs=["*"]`.
+In the first case, `_value` attribute can be detected from the `__init__` method as we saw above already.
 
 For the latter case, it is clear that the method is not present in the class definition, and an error is raised.
-
-!!! danger
-    If you want to forward instance attributes, then this is possible by explicitly setting `validate=False`. -->
