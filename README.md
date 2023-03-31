@@ -93,7 +93,7 @@ baz._bar.__len__()  # -> 42
 len(baz)  # -> TypeError: object of type 'Baz' has no len()
 ```
 
-### Compclass decorator
+### compclass (decorator)
 
 Using the [compclass](https://fbruzzesi.github.io/compclasses/api/compclass) decorator we can *forward* the methods that we want to the `Baz` class from its attributes at definition time:
 
@@ -128,6 +128,33 @@ Remark that in the `delegates` dictionary, we have that:
 
 The `compclass` decorator adds each attribute and method as a [property attribute](http://docs.python.org/3/library/functions.html#property), callable as
 `self.<attr_name>` instead of `self.<delegatee_cls>.<attr_name>`
+
+### CompclassMeta (metaclass)
+
+The equivalent, but alternative, way of doing it is by using the [`CompclassMeta`](https://fbruzzesi.github.io/compclasses/api/compclassmeta.md) metaclass when you define the class.
+
+```python
+from compclasses import CompclassMeta
+
+delegates = {
+    "_foo": ( "get_value", "hello"),
+    "_bar": ("__len__", )
+}
+
+class Baz(metaclass=CompclassMeta, delegates=delegates):
+    """Baz class"""
+
+    def __init__(self, foo: Foo, bar: Bar):
+        self._foo = foo
+        self._bar = bar
+
+baz = Baz(foo, bar)
+baz.get_value()  # -> 123
+baz.hello("GitHub")  # -> "Hello GitHub, this is Foo!"
+len(baz)  # -> 42
+```
+
+As you can see the syntax is nearly one-to-one with the `compclass` decorator, and the resulting behaviour is exactly the same!
 
 ## Advanced usage
 
