@@ -12,10 +12,10 @@ def partition(
     pred: Callable[[T], bool], iterable: Iterable[T]
 ) -> Tuple[Tuple[T, ...], Tuple[T, ...]]:
     """
-    Use a predicate to partition entries into True entries and False entries
+    Use a predicate to partition entries into True and False entries.
 
     Arguments:
-        pred: function used to test each element in the iterable, returning True or False
+        pred: function used to test each element in the iterable, returning True or False.
         iterable: An iterable of items to be partitioned according to the predicate
             result of each item.
 
@@ -30,7 +30,7 @@ def partition(
 
 class delegatee:
     """
-    Delegatee class, used in place of an iterable when defining delegates.
+    Delegatee class, used in place of an iterable when defining delegates dictionary.
 
     This class provides the following features:
 
@@ -62,7 +62,7 @@ class delegatee:
         - _is_dunder_method: assess whether or not an attribute is a dunder
             method.
         - _validate_delegatee_methods: checks if delegatee_cls has all
-            attributes/methods in attrs
+            attributes/methods in attrs.
     """
 
     def __init__(
@@ -117,6 +117,7 @@ class delegatee:
             try:
                 co_code = inspect.getsource(delegatee_cls.__init__)
                 init_attrs = tuple(pattern.findall(co_code))
+
             except Exception as e:
                 logger.info(
                     f"Unable to parse __init__ method of {delegatee_cls} due to the \

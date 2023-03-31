@@ -14,6 +14,10 @@ class CompclassMeta(ABCMeta):
     class properties.
 
     Arguments:
+        cls: metaclass
+        clsname: class name
+        bases: base classes
+        attrs: class attributes
         delegates: key-value pair of delegates.
 
             - key: name of the class/instance attribute to which the delegate instance is

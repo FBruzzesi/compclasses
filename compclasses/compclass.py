@@ -34,7 +34,7 @@ def compclass(
         ValueError: `delegates` param cannot be `None`
 
     Returns:
-        Type[T]: class with added methods from delegates
+        Class with added methods from delegates.
 
     Usage:
 
