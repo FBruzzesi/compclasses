@@ -113,7 +113,7 @@ nav:
     - user_guide/beyond_basics.md
   - API Reference:
     - compclass: api/compclass.md
+    - metaclass: api/compclassmeta.md
     - delegatee: api/delegatee.md
-    - property_from_delegator: api/property_from_delegator.md
   - Contributing: contribute.md
   - Inspiration: inspiration.md

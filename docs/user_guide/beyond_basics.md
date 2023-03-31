@@ -10,15 +10,16 @@ Let's see in detail which features are currently available.
 
 ## Features
 
-### Class attributes and methods validation
+### Attributes and methods validation
 
 When using `delegatee` class we have the option to check whether or not attributes and methods are present in the class.
 
 If we do so (`validate=True` parameter), then an `AttributeError` is raised if the attribute/method is not found in the class definition.
 
-Remark that instance attributes, those which are often defined in the `__init__` method as `self.attr_name = ...`, cannot be detected from the class definition only, therefore it is not possible to check for them in advance.
+Remark that we check for:
 
-If you want to forward such attributes, we suggest to set `validate=False`.
+- class attributes and methods;
+- instance attributes assigned in the `__init__` method, by parsing the `__init__` code and look for `self.attr_name = ...` syntax.
 
 !!! note "Why should you check if an attribute/method is present?"
 
@@ -28,7 +29,7 @@ If you want to forward such attributes, we suggest to set `validate=False`.
 
 Sometimes you want to forward all the methods of a given class. To accomplish that, it is enough to pass `attrs=["*"]` to the `delegatee` class.
 
-Doing so will parse and add all the class attributes and methods of the `delegatee_cls` to the composed class.
+Doing so will parse and add all the class attributes, methods and instance attributes of the `delegatee_cls` to the composed class.
 
 This gives the possibility to forward all the methods/attributes of a component with a single instruction.
 
@@ -46,14 +47,9 @@ It is also possible to specify custom prefix and/or suffix for each component. T
 
 ### Verbosity
 
-`compclass` decorator accepts a `verbose` parameter.
+`compclass` and `CompclassMeta` accept a `verbose` parameter which defines the level of verbosity when setting those forwarded methods.
 
-Its default value is 0, which simply means silent, however it is possible to set it with an integer from 1 to 4:
-
-- `verbose=1`: *setting* a method from a class component is explicit.
-- `verbose=2`: *calling* a method from a class component is explicit.
-- `verbose=3`: *deleting* a method from a class component is explicit.
-- `verbose=4`: *setting-calling-deleting* a method from a class component is explicit.
+If the value is `True` then we explicity "declare" each forwarded method/attribute.
 
 ## Examples
 
@@ -85,7 +81,7 @@ class Bar:
         return 42
 ```
 
-Now instead of using a list of attribute/methods name, let's define delegates using `delegatee` class, with few extra params:
+<!-- Now instead of using a list of attribute/methods name, let's define delegates using `delegatee` class, with few extra params:
 
 ```python title="delegatee class"
 from compclasses import compclass, delegatee
@@ -168,4 +164,4 @@ For the same reason, these attributes are not picked up when setting `attrs=["*"
 For the latter case, it is clear that the method is not present in the class definition, and an error is raised.
 
 !!! danger
-    If you want to forward instance attributes, then this is possible by explicitly setting `validate=False`.
+    If you want to forward instance attributes, then this is possible by explicitly setting `validate=False`. -->
