@@ -13,7 +13,26 @@ class CompclassMeta(ABCMeta):
     Metaclass that adds class attributes/methods from `delegates` to `clsname` object as
     class properties.
 
+    Usage:
 
+    ```python
+    class Foo:
+        a = 1
+
+        def __len__(self) -> int:
+            # custom len method
+            return 42
+
+    class Bar(metacls=CompclassMeta, delegates={"_foo": ("a", "__len__")}):
+        def __init__(self, foo: Foo):
+            self._foo = foo
+
+    foo = Foo()
+    bar = Bar(foo)
+
+    bar.a  # -> 1 (instead of bar._foo.a)
+    len(bar)  # -> 42 (instead of len(bar._foo))
+    ```
     """
 
     def __new__(

@@ -54,7 +54,7 @@ class delegatee:
 
             - Methods are searched in class definition `__dict__`.
             - Attributes are searched in class `__init__` code by matching the following
-                regex: `"self.{attr}"` (more technically, `re.compile(r"self\.(\w+)")`).
+                regex: `"self.{attr}"` (more technically, `re.compile(r"self.(\w+)")`).
 
     Methods:
         - _parse_attrs: parses the original attrs sequence, splitting between
@@ -107,7 +107,7 @@ class delegatee:
 
         dunder_methods, base_methods = partition(delegatee._is_dunder_method, attrs)
         if "*" in base_methods:
-            pattern = re.compile(r"self\.(\w+)")
+            pattern = re.compile(r"self.(\w+)")
 
             methods = tuple(
                 attr_name
@@ -120,8 +120,7 @@ class delegatee:
 
             except Exception as e:
                 logger.info(
-                    f"Unable to parse __init__ method of {delegatee_cls} due to the \
-                        following reason: {e}"
+                    f"Unable to parse __init__ method of {delegatee_cls} due to error: {e}"
                 )
                 init_attrs = tuple()
 
@@ -156,13 +155,12 @@ class delegatee:
 
         try:
             co_code = inspect.getsource(delegatee_cls.__init__)
-            pattern = re.compile(r"self\.(\w+)")
+            pattern = re.compile(r"self.(\w+)")
             init_attrs = tuple(pattern.findall(co_code))
 
         except Exception as e:
             logger.info(
-                f"Unable to parse __init__ method of {delegatee_cls} due to the \
-                    following reason: {e}"
+                f"Unable to parse __init__ method of {delegatee_cls} due to error: {e}"
             )
             init_attrs = tuple()
 
