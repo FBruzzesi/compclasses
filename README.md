@@ -24,6 +24,22 @@ This codebase wants to address such issue and make it easy to do so, by [delegat
 
 ---
 
+## Table of Content
+
+- [Compclasses](#compclasses)
+  * [Table of Content](#table-of-content)
+  * [Alpha Notice](#alpha-notice)
+  * [Installation](#installation)
+  * [Getting Started](#getting-started)
+    + [compclass (decorator)](#compclass-decorator)
+    + [CompclassMeta (metaclass)](#compclassmeta-metaclass)
+  * [Advanced usage](#advanced-usage)
+  * [Why Composition (TL;DR)](#why-composition-tldr)
+  * [Feedbacks](#feedbacks)
+  * [Contributing](#contributing)
+  * [Inspiration](#inspiration)
+  * [Licence](#licence)
+
 ## Alpha Notice
 
 This codebase is experimental and is working for my use cases. It is very probable that there are cases not covered and for which everything breaks. If you find them, please feel free to open an issue in the [issue page](https://github.com/FBruzzesi/compclasses/issues) of the repo.
