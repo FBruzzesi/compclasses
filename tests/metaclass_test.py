@@ -1,12 +1,11 @@
-from contextlib import nullcontext as does_not_raise
-from typing import Callable, Tuple, Type
+from typing import Any, Tuple
 
 import pytest
 
 from compclasses import CompclassMeta, delegatee
 
 
-def has_all_attrs(cls: Type, attrs: Tuple[str], prefix: str, suffix: str):
+def has_all_attrs(cls: Any, attrs: Tuple[str], prefix: str, suffix: str):
     """Checks that cls has all attributes in attrs"""
     for attr in attrs:
 
@@ -78,7 +77,7 @@ def test_meta(
     foo_obj = foo_cls(value=111)
     bar_obj = bar_cls()
 
-    baz_obj = Baz_composed(foo_obj, bar_obj)
+    baz_obj: Baz_composed = Baz_composed(foo_obj, bar_obj)
 
     has_all_attrs(baz_obj, foo_attrs, foo_prefix, foo_suffix)
     has_all_attrs(baz_obj, bar_attrs, bar_prefix, bar_suffix)

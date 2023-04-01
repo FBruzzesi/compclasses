@@ -52,10 +52,11 @@ class CompclassMeta(ABCMeta):
             attrs: class attributes
             delegates: key-value pair of delegates.
 
-                - key: name of the class/instance attribute to which the delegate instance is
-                    assigned to.
-                - value: must be either a sequence/iterable of method names or a `delegatee`
-                    instance. They represent the attributes/methods to forward.
+                - key: name of the class/instance attribute to which the delegate instance
+                     is assigned to.
+                - value: must be either a sequence/iterable of method names or a
+                    `delegatee` instance. They represent the attributes/methods to
+                    forward.
 
             verbose: defines the level of verbosity when setting those forwarded methods.
             log_func: function to use for logging, if verbose is set to True.

@@ -88,7 +88,7 @@ def test_compclass(
     }
 
     # Check class definition
-    Baz_composed = compclass(Baz, delegates=delegates)
+    Baz_composed: Type = compclass(Baz, delegates=delegates)  # type: ignore
 
     has_all_attrs(Baz_composed, foo_attrs, foo_prefix, foo_suffix)
     has_all_attrs(Baz_composed, bar_attrs, bar_prefix, bar_suffix)
