@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "compclasses"
-version = "0.4.0"
+version = "0.4.1"
 description = "Prefer composition over inheritance"
 
 license = {file = "LICENSE"}
@@ -41,6 +41,8 @@ all = ["compclasses[dev,docs]"]
 include = ["compclasses*"]
 exclude = ["docs", "tests", "data", "docker", "results", "notebooks", "kubernetes"]
 
+[tool.setuptools.package-data]
+deczoo = ["py.typed"]
 
 [tool.black]
 line-length = 90
