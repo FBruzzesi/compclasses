@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from abc import ABCMeta
-from typing import Any, Callable, Dict, Iterable, Optional, Tuple, Type, Union
+from typing import Any, Callable, Dict, Iterable, Tuple, Type, Union
 
 from compclasses._core import generate_properties
 from compclasses._delegatee import delegatee
@@ -41,7 +41,7 @@ class CompclassMeta(ABCMeta):
         bases: Tuple[Type, ...],
         attrs: Dict[str, Any],
         delegates: Dict[str, Union[Iterable[str], delegatee]],
-        verbose: Optional[bool] = True,
+        verbose: bool = True,
         log_func: Callable[[str], None] = logger.info,
     ) -> CompclassMeta:
         """

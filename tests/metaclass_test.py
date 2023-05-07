@@ -8,7 +8,6 @@ from compclasses import CompclassMeta, delegatee
 def has_all_attrs(cls: Any, attrs: Tuple[str], prefix: str, suffix: str):
     """Checks that cls has all attributes in attrs"""
     for attr in attrs:
-
         attr_name = (
             attr if delegatee._is_dunder_method(attr) else f"{prefix}{attr}{suffix}"
         )
@@ -66,7 +65,6 @@ def test_meta(
         """Baz composed class using metaclass"""
 
         def __init__(self, foo, bar):
-
             self.foo = foo
             self.bar = bar
 
