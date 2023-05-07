@@ -54,7 +54,6 @@ def create_baz_cls() -> Type:
         """Baz class"""
 
         def __init__(self, foo, bar):
-
             self.foo = foo  # instance of Foo class
             self.bar = bar  # instance of Bar class
 

@@ -1,7 +1,7 @@
 import inspect
 import re
 from itertools import filterfalse, tee
-from typing import Callable, Iterable, Optional, Tuple, Type, TypeVar
+from typing import Callable, Iterable, Tuple, Type, TypeVar
 
 from compclasses._logging import logger
 
@@ -69,11 +69,10 @@ class delegatee:
         self,
         delegatee_cls: Type,
         attrs: Iterable[str],
-        prefix: Optional[str] = "",
-        suffix: Optional[str] = "",
-        validate: Optional[bool] = True,
+        prefix: str = "",
+        suffix: str = "",
+        validate: bool = True,
     ):
-
         if not attrs:  # empty iterable such as list(), tuple(), None, etc...
             raise ValueError("attrs parameter cannot be None")
 
@@ -120,7 +119,7 @@ class delegatee:
 
             except Exception as e:
                 logger.info(
-                    f"Unable to parse __init__ method of {delegatee_cls} due to error: {e}"
+                    f"Unable to parse __init__ method of {delegatee_cls} due to: {e}"
                 )
                 init_attrs = tuple()
 

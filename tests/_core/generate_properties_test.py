@@ -36,7 +36,6 @@ def test_generate_properties(capsys, foo_cls, attrs, pfx, sfx):
     )
 
     for new_attr_name, _to_inject in property_generator:
-
         assert isinstance(_to_inject, property)
 
         if not delegatee._is_dunder_method(new_attr_name):

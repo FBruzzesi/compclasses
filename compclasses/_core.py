@@ -1,5 +1,5 @@
 from operator import attrgetter
-from typing import Callable, Dict, Generator, Iterable, Optional, Tuple, TypeVar, Union
+from typing import Callable, Dict, Generator, Iterable, Tuple, TypeVar, Union
 
 from compclasses._delegatee import delegatee
 from compclasses._logging import logger
@@ -62,7 +62,7 @@ def property_from_delegator(
 
 def generate_properties(
     delegates: Dict[str, Union[Iterable[str], delegatee]],
-    verbose: Optional[bool] = True,
+    verbose: bool = True,
     log_func: Callable[[str], None] = logger.info,
 ) -> Generator[Tuple[str, property], None, None]:
     """
@@ -82,11 +82,9 @@ def generate_properties(
     """
 
     for delegatee_name, delegatee_instance in delegates.items():
-
         is_delegatee = isinstance(delegatee_instance, delegatee)
 
         for attr_name in delegatee_instance:
-
             if is_delegatee and not delegatee._is_dunder_method(attr_name):
                 pfx, sfx = (
                     delegatee_instance._prefix,  # type: ignore
