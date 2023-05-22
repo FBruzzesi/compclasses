@@ -1,4 +1,4 @@
-# Integration
+# Integration with Pydantic and dataclasses
 
 Integrating with [Pydantic](https://docs.pydantic.dev/latest/) and [dataclasses](https://docs.python.org/3/library/dataclasses.html) can be beneficial for leveraging the powerful features provided by these libraries while also enjoying the flexibility and ease of use offered by composition.
 
@@ -46,8 +46,9 @@ delegates = {
     "bar": ("__len__", )
 }
 ```
-## Pydantic
+## Pydantic integration
 
+Pydantic is a popular library for data validation and parsing, which allows you to define data models using Python annotations. Pydantic provides automatic validation and conversion of data based on the defined models, while Compclasses enables composition and delegation of methods, making it easier to work with complex object structures.
 
 ```python title="Pydantic integration"
 from compclasses import compclass
@@ -67,7 +68,9 @@ baz, len(baz), baz.get_value(), baz.hello("there")
 # (Baz(foo=Foo(123), bar=baaarepr), 42, 123, 'Hello there, this is Foo!')
 ```
 
-## Dataclasses
+## Dataclasses integration
+
+Dataclasses are a Python built-in module that provides a concise syntax for defining classes with automatic generation of common methods. By integrating Compclasses with dataclasses, you can enhance the functionality and extensibility of your dataclasses.
 
 === "dataclass + compclass"
 
