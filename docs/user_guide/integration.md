@@ -75,7 +75,7 @@ On the other hand using the [CompclassMeta](../api/compclassmeta.md) metaclass w
 > TypeError: metaclass conflict: the metaclass of a derived class must be a (non-strict) subclass of the metaclasses of all its bases
 
 
-## Dataclasses integration
+## Dataclasses
 
 Dataclasses are a Python built-in module that provides a concise syntax for defining classes with automatic generation of common methods. By integrating Compclasses with dataclasses, you can enhance the functionality and extensibility of your dataclasses.
 
