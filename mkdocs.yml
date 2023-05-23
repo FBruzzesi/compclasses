@@ -112,6 +112,7 @@ nav:
     - Getting Started: user_guide/getting_started.md
     - Beyond the basics: user_guide/beyond_basics.md
     - MyPy Compliance: user_guide/mypy.md
+    - Pydantic & Dataclasses Integration: user_guide/integration.md
   - API Reference:
     - compclass: api/compclass.md
     - metaclass: api/compclassmeta.md

@@ -17,7 +17,7 @@ interrogate:
 
 style:
 	isort --profile black -l 90 compclasses tests
-	black --target-version py38 --line-length 90 compclasses tests
+	black --target-version py310 --line-length 90 --workers 4 compclasses tests
 
 test:
 	pytest tests -n auto
@@ -26,6 +26,7 @@ test-coverage:
 	rm -rf .coverage
 	coverage run -m pytest
 	coverage report -m
+	coverage-badge -o docs/img/coverage.svg
 
 check: interrogate style test clean-folders
 

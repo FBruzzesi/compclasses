@@ -5,7 +5,7 @@
 ![](https://img.shields.io/github/license/FBruzzesi/compclasses)
 <img src ="img/interrogate-shield.svg">
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-
+<img src ="img/coverage.svg">
 
 Like *dataclasses*, but for composition.
 
@@ -16,7 +16,7 @@ Like *dataclasses*, but for composition.
 
 However when we use composition in Python, we cannot access methods directly from the composed class, and we either re-define these methods from scratch, or access them using chaining.
 
-This codebase wants to address such issue and make it easy to do so, by [delegating](https://en.wikipedia.org/wiki/Delegation_(object-oriented_programming)) the desired methods of a class to its attributes.
+**Compclasses** enables composition and delegation of methods, making it easier to work with complex object structures.
 
 ---
 
