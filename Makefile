@@ -26,6 +26,7 @@ test-coverage:
 	rm -rf .coverage
 	coverage run -m pytest
 	coverage report -m
+	coverage-badge -o docs/img/coverage.svg
 
 check: interrogate style test clean-folders
 

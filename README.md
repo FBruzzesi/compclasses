@@ -5,7 +5,7 @@
 ![](https://img.shields.io/github/license/FBruzzesi/compclasses)
 <img src ="docs/img/interrogate-shield.svg">
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-
+<img src ="docs/img/coverage.svg">
 Like *dataclasses*, but for composition.
 
 As the Gang of Four (probably) said:
