@@ -1,4 +1,4 @@
-name: Python Code Checks
+name: PR Checks
 
 on:
   pull_request:
@@ -28,8 +28,8 @@ jobs:
     strategy:
       matrix:
         os: [
-          ubuntu-latest 
-          # , macos-latest 
+          ubuntu-latest
+          # , macos-latest
           # , windows-latest
           ]
         python-version: ["3.8", "3.9", "3.10", "3.11"]
@@ -46,7 +46,7 @@ jobs:
           python -m pip install --upgrade pip --no-cache-dir
           python -m pip install ."[dev]" --no-cache-dir
       - name: Test
-        run: pytest tests -vv -x 
+        run: pytest tests -vv -x
 
   style:
     needs: [test]
