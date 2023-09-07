@@ -49,7 +49,7 @@ It is also possible to specify custom prefix and/or suffix for each component. T
 
 `compclass` and `CompclassMeta` accept a `verbose` parameter which defines the level of verbosity when setting those forwarded methods.
 
-If the value is `True` then we explicity "declare" each forwarded method/attribute.
+If the value is `True` then we explicitly "declare" each forwarded method/attribute.
 
 ## Examples
 

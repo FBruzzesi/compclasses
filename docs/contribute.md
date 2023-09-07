@@ -31,7 +31,7 @@ When submitting a pull request, please make sure that you've followed the steps 
 
 Compclasses uses [black](https://black.readthedocs.io/en/stable/index.html) and [isort](https://pycqa.github.io/isort/) with default parameters for code formatting.
 
-As part of the checks on pull requests, it is checked whether the code follows those standards. To ensure that the standard is met, it is recommanded to install [pre-commit hooks](https://pre-commit.com/):
+As part of the checks on pull requests, it is checked whether the code follows those standards. To ensure that the standard is met, it is recommended to install [pre-commit hooks](https://pre-commit.com/):
 
 ```bash
 python -m pip install pre-commit

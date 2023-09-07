@@ -185,7 +185,7 @@ Check the dedicated [documentation page](https://fbruzzesi.github.io/compclasses
 
 Overall, composition is a more flexible and transparent way to reuse code and design classes in Python. It allows to build classes that are customized to your specific needs, and it promotes code reuse and modularity.
 
-A more detailed explaination is present in the [documentation page](https://fbruzzesi.github.io/compclasses/composition).
+A more detailed explanation is present in the [documentation page](https://fbruzzesi.github.io/compclasses/composition).
 
 ## Feedbacks
 
