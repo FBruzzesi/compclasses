@@ -20,9 +20,8 @@ However when we use composition in Python, we cannot access methods directly fro
 
 ---
 
-**Documentation**: https://fbruzzesi.github.io/compclasses
+[**Documentation**](https://fbruzzesi.github.io/compclasses) | [**Source Code**](https://github.com/fbruzzesi/compclasses)
 
-**Source Code**: https://github.com/fbruzzesi/compclasses
 
 ---
 

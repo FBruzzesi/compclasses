@@ -19,9 +19,7 @@ This codebase wants to address such issue and make it easy to do so, by [delegat
 
 ---
 
-**Documentation**: https://fbruzzesi.github.io/compclasses
-
-**Source Code**: https://github.com/fbruzzesi/compclasses
+[**Documentation**](https://fbruzzesi.github.io/compclasses) | [**Source Code**](https://github.com/fbruzzesi/compclasses)
 
 ---
 
