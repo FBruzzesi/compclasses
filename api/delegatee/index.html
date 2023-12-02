@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../../img/compclass-logo.svg">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.14">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.2.3">
     
     
       
@@ -30,10 +30,10 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.fad675c6.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.0e669242.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.356b1318.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.85d0ee34.min.css">
       
       
 
@@ -262,7 +262,6 @@
   
   
   
-  
     <li class="md-nav__item">
       <a href="../.." class="md-nav__link">
         
@@ -279,7 +278,6 @@
     
       
       
-  
   
   
   
@@ -302,7 +300,6 @@
   
   
   
-  
     
     
       
@@ -314,8 +311,6 @@
       
         
       
-    
-    
     
     
     <li class="md-nav__item md-nav__item--nested">
@@ -323,9 +318,9 @@
         
         
         
+        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
         
-          
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
             
   
@@ -349,7 +344,6 @@
   
   
   
-  
     <li class="md-nav__item">
       <a href="../../user_guide/getting_started/" class="md-nav__link">
         
@@ -367,7 +361,6 @@
             
               
                 
-  
   
   
   
@@ -391,7 +384,6 @@
   
   
   
-  
     <li class="md-nav__item">
       <a href="../../user_guide/mypy/" class="md-nav__link">
         
@@ -409,7 +401,6 @@
             
               
                 
-  
   
   
   
@@ -442,7 +433,6 @@
     
   
   
-  
     
     
       
@@ -452,8 +442,6 @@
       
         
       
-    
-    
     
     
     <li class="md-nav__item md-nav__item--active md-nav__item--nested">
@@ -461,9 +449,9 @@
         
         
         
+        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
-          
           <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
             
   
@@ -487,7 +475,6 @@
   
   
   
-  
     <li class="md-nav__item">
       <a href="../compclass/" class="md-nav__link">
         
@@ -505,7 +492,6 @@
             
               
                 
-  
   
   
   
@@ -529,7 +515,6 @@
   
   
     
-  
   
   
     <li class="md-nav__item md-nav__item--active">
@@ -578,9 +563,7 @@
       
         <li class="md-nav__item">
   <a href="#compclasses._delegatee.delegatee" class="md-nav__link">
-    <span class="md-ellipsis">
-      delegatee
-    </span>
+    delegatee
   </a>
   
 </li>
@@ -606,7 +589,6 @@
   
   
   
-  
     <li class="md-nav__item">
       <a href="../../contribute/" class="md-nav__link">
         
@@ -623,7 +605,6 @@
     
       
       
-  
   
   
   
@@ -669,9 +650,7 @@
       
         <li class="md-nav__item">
   <a href="#compclasses._delegatee.delegatee" class="md-nav__link">
-    <span class="md-ellipsis">
-      delegatee
-    </span>
+    delegatee
   </a>
   
 </li>
@@ -714,9 +693,8 @@
 
 
 
-
 <h2 id="compclasses._delegatee.delegatee" class="doc doc-heading">
-          <code>delegatee</code>
+        <code>delegatee</code>
 
 
 <a href="#compclasses._delegatee.delegatee" class="headerlink" title="Permanent link">&para;</a></h2>
@@ -734,8 +712,6 @@
 <li>It enables adding prefix and/or suffix to non-dunder methods.</li>
 </ul>
 
-
-
   <p><strong>Parameters:</strong></p>
   <table>
     <thead>
@@ -752,11 +728,7 @@
           <td>
                 <code><span title="typing.Type">Type</span></code>
           </td>
-          <td>
-            <div class="doc-md-description">
-              <p>Class from which we delegate. This is the class/type definition, no need to instantiate it.</p>
-            </div>
-          </td>
+          <td><p>Class from which we delegate. This is the class/type definition, no need to instantiate it.</p></td>
           <td>
               <em>required</em>
           </td>
@@ -766,16 +738,12 @@
           <td>
                 <code><span title="typing.Iterable">Iterable</span>[str]</code>
           </td>
-          <td>
-            <div class="doc-md-description">
-              <p>Sequence of attributes/methods to inject on the composed class.</p>
+          <td><p>Sequence of attributes/methods to inject on the composed class.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>If <code>"*"</code> is present, we inject all the methods, <strong>excluding</strong> dunder methods, which need to be
 explicitly stated.</p>
-</div>
-            </div>
-          </td>
+</div></td>
           <td>
               <em>required</em>
           </td>
@@ -785,11 +753,7 @@ explicitly stated.</p>
           <td>
                 <code>str</code>
           </td>
-          <td>
-            <div class="doc-md-description">
-              <p>Injected methods prefix, unused for dunder methods.</p>
-            </div>
-          </td>
+          <td><p>Injected methods prefix, unused for dunder methods.</p></td>
           <td>
                 <code>&#39;&#39;</code>
           </td>
@@ -799,11 +763,7 @@ explicitly stated.</p>
           <td>
                 <code>str</code>
           </td>
-          <td>
-            <div class="doc-md-description">
-              <p>Injected methods suffix, unused for dunder methods.</p>
-            </div>
-          </td>
+          <td><p>Injected methods suffix, unused for dunder methods.</p></td>
           <td>
                 <code>&#39;&#39;</code>
           </td>
@@ -813,9 +773,7 @@ explicitly stated.</p>
           <td>
                 <code>bool</code>
           </td>
-          <td>
-            <div class="doc-md-description">
-              <p>Whether or not to validate if <code>delegatee_cls</code> has all the methods and/or attributes.</p>
+          <td><p>Whether or not to validate if <code>delegatee_cls</code> has all the methods and/or attributes.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <ul>
@@ -823,9 +781,7 @@ explicitly stated.</p>
 <li>Attributes are searched in class <code>__init__</code> code by matching the following regex:
     <code>"self.{attr}"</code> (more technically, <code>re.compile(r"self.(\w+)")</code>).</li>
 </ul>
-</div>
-            </div>
-          </td>
+</div></td>
           <td>
                 <code>True</code>
           </td>
@@ -833,47 +789,18 @@ explicitly stated.</p>
     </tbody>
   </table>
 
+<details class="methods">
+  <summary>Methods</summary>
+  <ul>
+<li>_parse_attrs: Parses the original attrs sequence, splitting between dunder and class methods.</li>
+<li>_is_dunder_method: Assess whether or not an attribute is a dunder method.</li>
+<li>_validate_delegatee_methods: Checks if delegatee_cls has all attributes/methods in attrs.</li>
+</ul>
+</details>
 
-
-  <p><strong>Methods:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-          <tr>
-            <td><code>- _parse_attrs</code></td>
-            <td>
-              <div class="doc-md-description">
-                <p>Parses the original attrs sequence, splitting between dunder and class methods.</p>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td><code>- _is_dunder_method</code></td>
-            <td>
-              <div class="doc-md-description">
-                <p>Assess whether or not an attribute is a dunder method.</p>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td><code>- _validate_delegatee_methods</code></td>
-            <td>
-              <div class="doc-md-description">
-                <p>Checks if delegatee_cls has all attributes/methods in attrs.</p>
-              </div>
-            </td>
-          </tr>
-    </tbody>
-  </table>
-
-            <details class="quote">
-              <summary>Source code in <code>compclasses/_delegatee.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-27"> 27</a></span>
+        <details class="quote">
+          <summary>Source code in <code>compclasses/_delegatee.py</code></summary>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-27"> 27</a></span>
 <span class="normal"><a href="#__codelineno-0-28"> 28</a></span>
 <span class="normal"><a href="#__codelineno-0-29"> 29</a></span>
 <span class="normal"><a href="#__codelineno-0-30"> 30</a></span>
@@ -1115,7 +1042,7 @@ explicitly stated.</p>
 <a id="__codelineno-0-146" name="__codelineno-0-146"></a>            <span class="k">if</span> <span class="n">attr_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">all_methods</span><span class="p">:</span>
 <a id="__codelineno-0-147" name="__codelineno-0-147"></a>                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">delegatee_cls</span><span class="si">}</span><span class="s2">&#39; has no attribute nor method &#39;</span><span class="si">{</span><span class="n">attr_name</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-            </details>
+        </details>
 
   
 
@@ -1151,10 +1078,10 @@ explicitly stated.</p>
         </div>
         
           <button type="button" class="md-top md-icon" data-md-component="top" hidden>
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
-  Back to top
-</button>
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Back to top
+          </button>
         
       </main>
       
@@ -1165,7 +1092,7 @@ explicitly stated.</p>
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../compclassmeta/" class="md-footer__link md-footer__link--prev" aria-label="Previous: metaclass">
+          <a href="../compclassmeta/" class="md-footer__link md-footer__link--prev" aria-label="Previous: metaclass" rel="prev">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
@@ -1182,7 +1109,7 @@ explicitly stated.</p>
         
         
           
-          <a href="../../contribute/" class="md-footer__link md-footer__link--next" aria-label="Next: Contributing">
+          <a href="../../contribute/" class="md-footer__link md-footer__link--next" aria-label="Next: Contributing" rel="next">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
@@ -1258,11 +1185,10 @@ explicitly stated.</p>
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.action.edit", "content.action.view", "content.code.annotate", "content.code.copy", "content.tooltips", "search.suggest", "search.highlight", "content.tabs.link", "navigation.footer", "navigation.indexes", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["content.action.edit", "content.action.view", "content.code.annotate", "content.code.copy", "content.tooltips", "search.suggest", "search.highlight", "content.tabs.link", "navigation.footer", "navigation.indexes", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
-    
-      <script src="../../assets/javascripts/bundle.cd18aaf1.min.js"></script>
+      <script src="../../assets/javascripts/bundle.78eede0e.min.js"></script>
       
     
   </body>
