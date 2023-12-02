@@ -11,27 +11,22 @@ def compclass(
     delegates: Union[Dict[str, Union[Iterable[str], delegatee]], None] = None,
     verbose: bool = True,
     log_func: Callable[[str], None] = logger.info,
-) -> Union[
-    Type[T], Callable[[Type[T], Dict[str, Union[Iterable[str], delegatee]]], Type[T]]
-]:
-    """
-    Decorator that adds class attributes/methods from `delegates` to `_cls` object as
-    class properties.
+) -> Union[Type[T], Callable[[Type[T], Dict[str, Union[Iterable[str], delegatee]]], Type[T]]]:
+    """Decorator that adds class attributes/methods from `delegates` to `_cls` object as class properties.
 
     Arguments:
-        _cls: class to which attributes/methods should be forwarded to.
-        delegates: key-value pair of delegates.
+        _cls: Class to which attributes/methods should be forwarded to.
+        delegates: Key-value pair of delegates.
 
-            - key: name of the class/instance attribute to which the delegate instance is
-                assigned to.
-            - value: must be either a sequence/iterable of method names or a `delegatee`
-                instance. They represent the attributes/methods to forward.
+            - key: Name of the class/instance attribute to which the delegate instance is assigned to.
+            - value: Must be either a sequence/iterable of method names or a `delegatee` instance.
+                They represent the attributes/methods to forward.
 
-        verbose: defines the level of verbosity when setting those forwarded methods.
-        log_func: function to use for logging, if verbose is set to True.
+        verbose: Defines the level of verbosity when setting those forwarded methods.
+        log_func: Function to use for logging, if verbose is set to True.
 
     Raises:
-        ValueError: `delegates` param cannot be `None`
+        ValueError: `delegates` param cannot be `None`.
 
     Returns:
         Class with added methods from delegates.

@@ -88,7 +88,7 @@ Remark that in the `delegates` dictionary, we have that:
 - the keys correspond to the attribute names in the `Baz` class;
 - each value should be an iterable of string corresponding to methods/attributes present in the class instance associated to the key-attribute.
 
-The `compclass` decorator adds each attribute and method as a [property attribute](http://docs.python.org/3/library/functions.html#property), callable as
+The `compclass` decorator adds each attribute and method as a [property attribute](https://docs.python.org/3/library/functions.html#property), callable as
 `self.<attr_name>` instead of `self.<delegatee_cls>.<attr_name>`
 
 ## CompclassMeta (metaclass)
@@ -120,7 +120,7 @@ As you can see the syntax is nearly one-to-one with the `compclass` decorator, a
 
 ## Next Steps
 
-Instead of using an iterable in the `delegates` dictionary, we suggest to use a [delegatee](https://fbruzzesi.github.io/compclasses/api/delegatee) instance as a value.
+Instead of using an iterable in the `delegates` dictionary, we suggest to use a [delegatee](https://fbruzzesi.github.io/compclasses/api/delegatee/) instance as a value.
 
 This will yield more flexibility and features when decide to forward class attributes and methods.
 
