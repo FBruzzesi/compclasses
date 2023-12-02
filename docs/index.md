@@ -2,10 +2,11 @@
 
 # Compclasses
 
-![](https://img.shields.io/github/license/FBruzzesi/compclasses)
+![Licence](https://img.shields.io/github/license/FBruzzesi/compclasses)
 <img src ="img/interrogate-shield.svg">
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 <img src ="img/coverage.svg">
+<img src="https://img.shields.io/pypi/pyversions/compclasses">
 
 Like *dataclasses*, but for composition.
 

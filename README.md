@@ -2,10 +2,11 @@
 
 # Compclasses
 
-![](https://img.shields.io/github/license/FBruzzesi/compclasses)
+![Licence](https://img.shields.io/github/license/FBruzzesi/compclasses)
 <img src ="docs/img/interrogate-shield.svg">
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 <img src ="docs/img/coverage.svg">
+<img src="https://img.shields.io/pypi/pyversions/compclasses">
 
 Like *dataclasses*, but for composition.
 
@@ -26,18 +27,18 @@ This codebase wants to address such issue and make it easy to do so, by [delegat
 ## Table of Content
 
 - [Compclasses](#compclasses)
-  * [Table of Content](#table-of-content)
-  * [Alpha Notice](#alpha-notice)
-  * [Installation](#installation)
-  * [Getting Started](#getting-started)
-    + [compclass (decorator)](#compclass-decorator)
-    + [CompclassMeta (metaclass)](#compclassmeta-metaclass)
-  * [Advanced usage](#advanced-usage)
-  * [Why Composition (TL;DR)](#why-composition-tldr)
-  * [Feedbacks](#feedbacks)
-  * [Contributing](#contributing)
-  * [Inspiration](#inspiration)
-  * [Licence](#licence)
+  - [Table of Content](#table-of-content)
+  - [Alpha Notice](#alpha-notice)
+  - [Installation](#installation)
+  - [Getting Started](#getting-started)
+    - [compclass (decorator)](#compclass-decorator)
+    - [CompclassMeta (metaclass)](#compclassmeta-metaclass)
+  - [Advanced usage](#advanced-usage)
+  - [Why Composition (TL;DR)](#why-composition-tldr)
+  - [Feedbacks](#feedbacks)
+  - [Contributing](#contributing)
+  - [Inspiration](#inspiration)
+  - [Licence](#licence)
 
 ## Alpha Notice
 
@@ -110,7 +111,7 @@ len(baz)  # -> TypeError: object of type 'Baz' has no len()
 
 ### compclass (decorator)
 
-Using the [compclass](https://fbruzzesi.github.io/compclasses/api/compclass) decorator we can *forward* the methods that we want to the `Baz` class from its attributes at definition time:
+Using the [compclass](https://fbruzzesi.github.io/compclasses/api/compclass/) decorator we can *forward* the methods that we want to the `Baz` class from its attributes at definition time:
 
 ```python title="Using compclass"
 from compclasses import compclass
@@ -146,7 +147,7 @@ The `compclass` decorator adds each attribute and method as a [property attribut
 
 ### CompclassMeta (metaclass)
 
-The equivalent, but alternative, way of doing it is by using the [`CompclassMeta`](https://fbruzzesi.github.io/compclasses/api/compclassmeta.md) metaclass when you define the class.
+The equivalent, but alternative, way of doing it is by using the [`CompclassMeta`](https://fbruzzesi.github.io/compclasses/api/compclassmeta) metaclass when you define the class.
 
 ```python
 from compclasses import CompclassMeta
@@ -183,7 +184,7 @@ Check the dedicated [documentation page](https://fbruzzesi.github.io/compclasses
 
 Overall, composition is a more flexible and transparent way to reuse code and design classes in Python. It allows to build classes that are customized to your specific needs, and it promotes code reuse and modularity.
 
-A more detailed explanation is present in the [documentation page](https://fbruzzesi.github.io/compclasses/composition).
+A more detailed explanation is present in the [documentation page](https://fbruzzesi.github.io/compclasses/composition/).
 
 ## Feedbacks
 
@@ -204,7 +205,7 @@ However I was looking for both more flexibility and more features. In particular
 - the possibility to forward all the methods/attributes of a given component with a single instruction;
 - the chance of adding prefix and/or suffix for each component;
 
-Please refer to [Beyond the basics](user_guide/beyond_basics.md) page to see example usages.
+Please refer to [Beyond the basics](https://fbruzzesi.github.io/compclasses/user_guide/beyond_basics/) page to see example usages.
 
 ## Licence
 
