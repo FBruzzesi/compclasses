@@ -2,33 +2,42 @@ init-env:
 	pip install . --no-cache-dir
 
 init-dev:
-	pip install -e ".[dev,doc]" --no-cache-dir
+	pip install -e ".[all-dev]" --no-cache-dir
 	pre-commit install
 
 clean-notebooks:
 	jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace notebooks/*.ipynb
 
 clean-folders:
-	rm -rf .ipynb_checkpoints __pycache__ .pytest_cache */.ipynb_checkpoints */__pycache__ */.pytest_cache
-	rm -rf site build dist htmlcov .coverage
+	rm -rf __pycache__ */__pycache__ */**/__pycache__ \
+		.pytest_cache */.pytest_cache */**/.pytest_cache \
+		.ruff_cache */.ruff_cache */**/.ruff_cache \
+		.mypy_cache */.mypy_cache */**/.mypy_cache \
+		site build dist htmlcov .coverage .tox
 
-interrogate:
-	interrogate -vv --ignore-nested-functions --ignore-module --ignore-init-method --ignore-private --ignore-magic --ignore-property-decorators --fail-under=90 compclasses tests
-
-style:
-	isort --profile black -l 90 compclasses tests
-	black --target-version py310 --line-length 90 --workers 4 compclasses tests
+lint:
+	ruff version
+	ruff check compclasses tests --fix
+	ruff format compclasses tests
+	ruff clean
 
 test:
 	pytest tests -n auto
 
-test-coverage:
+coverage:
 	rm -rf .coverage
+	(rm docs/img/coverage.svg) || (echo "No coverage.svg file found")
 	coverage run -m pytest
 	coverage report -m
 	coverage-badge -o docs/img/coverage.svg
 
-check: interrogate style test clean-folders
+interrogate:
+	interrogate compclasses tests
+
+interrogate-badge:
+	interrogate --generate-badge docs/img/interrogate-shield.svg
+
+check: interrogate lint test clean-folders
 
 docs-serve:
 	mkdocs serve
@@ -37,11 +46,9 @@ docs-deploy:
 	mkdocs gh-deploy
 
 pypi-push:
-	python -m pip install twine wheel --no-cache-dir
+	rm -rf dist
+	hatch build
+	hatch publish
 
-	python setup.py sdist
-	python setup.py bdist_wheel --universal
-	twine upload dist/*
-
-interrogate-badge:
-	interrogate -vv --ignore-nested-functions --ignore-semiprivate --ignore-private --ignore-magic --ignore-module --ignore-init-method  --generate-badge docs/img/interrogate-shield.svg
+get-version :
+	@echo $(shell grep -m 1 version pyproject.toml | tr -s ' ' | tr -d '"' | tr -d "'" | cut -d' ' -f3)

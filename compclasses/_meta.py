@@ -9,9 +9,7 @@ from compclasses._logging import logger
 
 
 class CompclassMeta(ABCMeta):
-    """
-    Metaclass that adds class attributes/methods from `delegates` to `clsname` object as
-    class properties.
+    """Metaclass that adds class attributes/methods from `delegates` to `clsname` object as class properties.
 
     Usage:
 
@@ -46,20 +44,18 @@ class CompclassMeta(ABCMeta):
     ) -> CompclassMeta:
         """
         Arguments:
-            cls: metaclass
-            clsname: class name
-            bases: base classes
-            attrs: class attributes
-            delegates: key-value pair of delegates.
+            cls: Metaclass
+            clsname: Class name
+            bases: Base classes
+            attrs: Class attributes
+            delegates: Key-value pair of delegates.
 
-                - key: name of the class/instance attribute to which the delegate instance
-                     is assigned to.
-                - value: must be either a sequence/iterable of method names or a
-                    `delegatee` instance. They represent the attributes/methods to
-                    forward.
+                - key: Name of the class/instance attribute to which the delegate instance is assigned to.
+                - value: Must be either a sequence/iterable of method names or a `delegatee` instance.
+                    They represent the attributes/methods to forward.
 
-            verbose: defines the level of verbosity when setting those forwarded methods.
-            log_func: function to use for logging, if verbose is set to True.
+            verbose: Defines the level of verbosity when setting those forwarded methods.
+            log_func: Function to use for logging, if verbose is set to True.
         """
 
         for _name, _to_inject in generate_properties(delegates, verbose, log_func):

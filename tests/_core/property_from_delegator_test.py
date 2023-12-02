@@ -12,9 +12,7 @@ from compclasses._core import property_from_delegator
         ("hello_from_foo", "", "_from_foo_cls", ("GitHub",)),
     ],
 )
-def test_property_from_delegator(
-    foo_cls, bar_cls, baz_cls, attr_name, pfx, sfx, method_args
-):
+def test_property_from_delegator(foo_cls, bar_cls, baz_cls, attr_name, pfx, sfx, method_args):
     """Test for property_from_delegator function"""
     foo_obj = foo_cls(value=111)
     bar_obj = bar_cls()
@@ -30,9 +28,7 @@ def test_property_from_delegator(
 
     assert hasattr(Baz, new_attr_name)
     assert hasattr(baz_obj, new_attr_name)
-    assert getattr(baz_obj, new_attr_name)(*method_args) == getattr(foo_obj, attr_name)(
-        *method_args
-    )
+    assert getattr(baz_obj, new_attr_name)(*method_args) == getattr(foo_obj, attr_name)(*method_args)
 
     setattr(baz_obj, new_attr_name, _property_to_inject)
     delattr(Baz, new_attr_name)  # can't delete from instance, only from class!!!

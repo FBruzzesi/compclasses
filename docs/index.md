@@ -9,7 +9,6 @@
 
 Like *dataclasses*, but for composition.
 
-
 !!! quote "Favor object composition over class inheritance"
 
     As the Gang of Four (probably) said.
@@ -20,15 +19,13 @@ However when we use composition in Python, we cannot access methods directly fro
 
 ---
 
-[**Documentation**](https://fbruzzesi.github.io/compclasses) | [**Source Code**](https://github.com/fbruzzesi/compclasses)
-
+[**Documentation**](https://fbruzzesi.github.io/compclasses/) | [**Source Code**](https://github.com/fbruzzesi/compclasses)
 
 ---
 
 ## Alpha Notice
 
 This codebase is experimental and is working for my use cases. It is very probable that there are cases not covered and for which everything breaks. If you find them, please feel free to open an issue in the [issue page](https://github.com/FBruzzesi/compclasses/issues) of the repo.
-
 
 ## Installation
 
