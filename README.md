@@ -147,7 +147,7 @@ The `compclass` decorator adds each attribute and method as a [property attribut
 
 ### CompclassMeta (metaclass)
 
-The equivalent, but alternative, way of doing it is by using the [`CompclassMeta`](https://fbruzzesi.github.io/compclasses/api/compclassmeta) metaclass when you define the class.
+The equivalent, but alternative, way of doing it is by using the [`CompclassMeta`](https://fbruzzesi.github.io/compclasses/api/compclassmeta/) metaclass when you define the class.
 
 ```python
 from compclasses import CompclassMeta
@@ -192,7 +192,7 @@ Any feedback, improvement/enhancement or issue is welcome in the [issue page](ht
 
 ## Contributing
 
-Please refer to the [contributing guidelines](https://fbruzzesi.github.io/compclasses/contribute) in the documentation site.
+Please refer to the [contributing guidelines](https://fbruzzesi.github.io/compclasses/contribute/) in the documentation site.
 
 ## Inspiration
 
