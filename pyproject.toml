@@ -53,12 +53,11 @@ docs = [
 
 all-dev = ["compclasses[dev,docs,test]"]
 
-[tool.setuptools.packages.find]
-include = ["compclasses*"]
-exclude = ["docs", "tests", "data", "docker", "results", "notebooks", "kubernetes"]
+[tool.hatch.build.targets.sdist]
+only-include = ["compclasses"]
 
-[tool.setuptools.package-data]
-deczoo = ["py.typed"]
+[tool.hatch.build.targets.wheel]
+packages = ["compclasses"]
 
 [tool.ruff]
 line-length = 120
